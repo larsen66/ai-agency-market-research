@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Agency Market Research — Dashboard</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/@carbon/charts@1.27.3/dist/styles.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+    :root {
+      --cds-text-01: #f4f4f4;
+      --cds-text-02: #c6c6c6;
+      --cds-ui-01: #262626;
+      --cds-ui-02: #393939;
+      --cds-ui-background: #161616;
+      --cds-interactive-01: #0f62fe;
+      --cds-interactive-02: #6929c4;
+      --cds-support-01: #da1e28;
+      --cds-support-02: #24a148;
+      --cds-support-03: #f1c21b;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'IBM Plex Sans', -apple-system, sans-serif;
+      background: var(--cds-ui-background);
+      color: var(--cds-text-01);
+      min-height: 100vh;
+    }
+
+    .header {
+      background: var(--cds-ui-01);
+      border-bottom: 1px solid var(--cds-ui-02);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header h1 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .header .subtitle {
+      color: var(--cds-text-02);
+      font-size: 0.875rem;
+    }
+
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1px;
+      background: var(--cds-ui-02);
+      border-bottom: 1px solid var(--cds-ui-02);
+    }
+
+    .stat-card {
+      background: var(--cds-ui-01);
+      padding: 1.25rem 1.5rem;
+    }
+
+    .stat-card .label {
+      font-size: 0.75rem;
+      color: var(--cds-text-02);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-card .value {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--cds-interactive-01);
+    }
+
+    .stat-card .detail {
+      font-size: 0.75rem;
+      color: var(--cds-text-02);
+      margin-top: 0.25rem;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--cds-ui-02);
+      padding: 0;
+    }
+
+    .chart-container {
+      background: var(--cds-ui-01);
+      padding: 1.5rem;
+      min-height: 420px;
+    }
+
+    .chart-container.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .chart-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .chart-subtitle {
+      font-size: 0.75rem;
+      color: var(--cds-text-02);
+      margin-bottom: 1rem;
+    }
+
+    .chart-holder {
+      height: 340px;
+    }
+
+    .chart-holder.tall {
+      height: 400px;
+    }
+
+    .insight-bar {
+      background: var(--cds-ui-01);
+      border-top: 1px solid var(--cds-ui-02);
+      padding: 2rem;
+    }
+
+    .insight-bar h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .insights-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+
+    .insight-card {
+      background: var(--cds-ui-background);
+      border: 1px solid var(--cds-ui-02);
+      border-left: 3px solid var(--cds-interactive-01);
+      padding: 1rem 1.25rem;
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+
+    .insight-card strong {
+      color: var(--cds-interactive-01);
+    }
+
+    .insight-card.warn {
+      border-left-color: var(--cds-support-03);
+    }
+
+    .insight-card.warn strong {
+      color: var(--cds-support-03);
+    }
+
+    .insight-card.good {
+      border-left-color: var(--cds-support-02);
+    }
+
+    .insight-card.good strong {
+      color: var(--cds-support-02);
+    }
+
+    @media (max-width: 900px) {
+      .dashboard { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div>
+      <h1>AI Agency Market Research 2026</h1>
+      <div class="subtitle">Competitive intelligence across 233 companies — April 2026</div>
+    </div>
+    <div class="subtitle" style="font-family: 'IBM Plex Mono', monospace;">github.com/larsen66/ai-agency-market-research</div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat-card">
+      <div class="label">Companies Analyzed</div>
+      <div class="value">233</div>
+      <div class="detail">39 data points each</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">High Confidence</div>
+      <div class="value">73</div>
+      <div class="detail">31% of dataset</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Verified</div>
+      <div class="value">62</div>
+      <div class="detail">27% fully verified</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Countries</div>
+      <div class="value">11+</div>
+      <div class="detail">US, UK, India dominant</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Dominant Pricing</div>
+      <div class="value">72%</div>
+      <div class="detail">Project-based model</div>
+    </div>
+  </div>
+
+  <div class="dashboard">
+    <div class="chart-container">
+      <div class="chart-title">Company Types</div>
+      <div class="chart-subtitle">Distribution across agency categories</div>
+      <div id="chart-types" class="chart-holder"></div>
+    </div>
+
+    <div class="chart-container">
+      <div class="chart-title">Company Size</div>
+      <div class="chart-subtitle">Employee count distribution</div>
+      <div id="chart-sizes" class="chart-holder"></div>
+    </div>
+
+    <div class="chart-container">
+      <div class="chart-title">Geography</div>
+      <div class="chart-subtitle">HQ location distribution</div>
+      <div id="chart-geo" class="chart-holder"></div>
+    </div>
+
+    <div class="chart-container">
+      <div class="chart-title">Pricing Models</div>
+      <div class="chart-subtitle">How agencies charge clients</div>
+      <div id="chart-pricing" class="chart-holder"></div>
+    </div>
+
+    <div class="chart-container">
+      <div class="chart-title">Top Services Offered</div>
+      <div class="chart-subtitle">Most frequent service categories across all companies</div>
+      <div id="chart-services" class="chart-holder tall"></div>
+    </div>
+
+    <div class="chart-container">
+      <div class="chart-title">Data Quality</div>
+      <div class="chart-subtitle">Confidence level and verification status</div>
+      <div id="chart-confidence" class="chart-holder" style="height: 160px;"></div>
+      <div id="chart-verification" class="chart-holder" style="height: 200px; margin-top: 1rem;"></div>
+    </div>
+  </div>
+
+  <div class="insight-bar">
+    <h2>Key Insights</h2>
+    <div class="insights-grid">
+      <div class="insight-card good">
+        <strong>Strongest first offer:</strong> AI Lead Response & Follow-Up System. Highest SMB fit across ease of sale, speed to result, ROI clarity, and upsell potential.
+      </div>
+      <div class="insight-card">
+        <strong>72% use project-based pricing.</strong> Fixed-scope engagements dominate. Retainer and subscription models are underrepresented — opportunity for recurring revenue positioning.
+      </div>
+      <div class="insight-card warn">
+        <strong>Weak players sell abstractions.</strong> "AI strategy", "readiness", "transformation" — overused and commoditized. Strong players sell specific pain relief: faster response, fewer losses, less manual work.
+      </div>
+      <div class="insight-card">
+        <strong>51% are small teams (10-50 people).</strong> The market is fragmented with many small operators. No dominant player in the SMB automation niche yet.
+      </div>
+      <div class="insight-card good">
+        <strong>Dev shops are the largest category (64).</strong> Most are offshore generalists adding "AI" to their pitch. True AI-native agencies are a minority — differentiation opportunity.
+      </div>
+      <div class="insight-card warn">
+        <strong>27 companies have red flags or low evidence.</strong> No named clients despite years in business, unverifiable claims, or inflated positioning. Buyers should verify carefully.
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/@carbon/charts@1.27.3/dist/umd/bundle.umd.js"></script>
+  <script>
+    const g100 = {
+      "background": { "color": "#161616" },
+      "text": { "color": "#f4f4f4" },
+      "axis": { "line": { "color": "#393939" }, "label": { "color": "#c6c6c6" } },
+      "grid": { "line": { "color": "#262626" } },
+      "legend": { "text": { "color": "#c6c6c6" } },
+      "tooltip": { "background": { "color": "#262626" }, "text": { "color": "#f4f4f4" } }
+    };
+
+    const carbonColors = [
+      "#0f62fe", "#6929c4", "#1192e8", "#005d5d", "#9f1853",
+      "#fa4d56", "#570408", "#198038", "#002d9c", "#ee538b",
+      "#b28600", "#009d9a"
+    ];
+
+    const theme = "g100";
+
+    // 1. Company Types — Bar
+    new Charts.SimpleBarChart(document.getElementById("chart-types"), {
+      data: [
+        { group: "Companies", key: "Dev Shop", value: 64 },
+        { group: "Companies", key: "AI Consultancy", value: 50 },
+        { group: "Companies", key: "AI Agency", value: 42 },
+        { group: "Companies", key: "AI Automation", value: 21 },
+        { group: "Companies", key: "Marketing", value: 13 },
+        { group: "Companies", key: "Not Applicable", value: 9 },
+        { group: "Companies", key: "SaaS/Product", value: 6 },
+        { group: "Companies", key: "Enterprise IT", value: 4 },
+        { group: "Companies", key: "Other", value: 24 }
+      ],
+      options: {
+        theme,
+        axes: {
+          left: { mapsTo: "key", scaleType: "labels" },
+          bottom: { mapsTo: "value" }
+        },
+        bars: { maxWidth: 28 },
+        color: { scale: { "Companies": "#0f62fe" } },
+        legend: { enabled: false },
+        height: "340px"
+      }
+    });
+
+    // 2. Company Size — Donut
+    new Charts.DonutChart(document.getElementById("chart-sizes"), {
+      data: [
+        { group: "Small (10-50)", value: 119 },
+        { group: "Medium (50-200)", value: 58 },
+        { group: "Micro (<10)", value: 33 },
+        { group: "Large (200+)", value: 23 }
+      ],
+      options: {
+        theme,
+        resizable: true,
+        donut: { center: { label: "233", number: "companies" } },
+        color: { scale: {
+          "Small (10-50)": "#0f62fe",
+          "Medium (50-200)": "#6929c4",
+          "Micro (<10)": "#1192e8",
+          "Large (200+)": "#005d5d"
+        }},
+        height: "340px",
+        legend: { alignment: "center" }
+      }
+    });
+
+    // 3. Geography — Bar
+    new Charts.SimpleBarChart(document.getElementById("chart-geo"), {
+      data: [
+        { group: "HQ", key: "UK", value: 43 },
+        { group: "HQ", key: "USA", value: 39 },
+        { group: "HQ", key: "India", value: 27 },
+        { group: "HQ", key: "US + India", value: 15 },
+        { group: "HQ", key: "Germany", value: 11 },
+        { group: "HQ", key: "Poland", value: 6 },
+        { group: "HQ", key: "Australia", value: 6 },
+        { group: "HQ", key: "Canada", value: 4 },
+        { group: "HQ", key: "UAE", value: 4 },
+        { group: "HQ", key: "Netherlands", value: 4 },
+        { group: "HQ", key: "Other", value: 74 }
+      ],
+      options: {
+        theme,
+        axes: {
+          left: { mapsTo: "key", scaleType: "labels" },
+          bottom: { mapsTo: "value" }
+        },
+        bars: { maxWidth: 24 },
+        color: { scale: { "HQ": "#6929c4" } },
+        legend: { enabled: false },
+        height: "340px"
+      }
+    });
+
+    // 4. Pricing — Donut
+    new Charts.DonutChart(document.getElementById("chart-pricing"), {
+      data: [
+        { group: "Project-Based", value: 167 },
+        { group: "Consulting", value: 17 },
+        { group: "Not Public", value: 8 },
+        { group: "Subscription/SaaS", value: 7 },
+        { group: "Retainer", value: 6 },
+        { group: "Value/Outcome", value: 2 },
+        { group: "Other", value: 26 }
+      ],
+      options: {
+        theme,
+        resizable: true,
+        donut: { center: { label: "72%", number: "project-based" } },
+        color: { scale: {
+          "Project-Based": "#0f62fe",
+          "Consulting": "#6929c4",
+          "Not Public": "#393939",
+          "Subscription/SaaS": "#1192e8",
+          "Retainer": "#005d5d",
+          "Value/Outcome": "#9f1853",
+          "Other": "#525252"
+        }},
+        height: "340px",
+        legend: { alignment: "center" }
+      }
+    });
+
+    // 5. Top Services — Bar
+    new Charts.SimpleBarChart(document.getElementById("chart-services"), {
+      data: [
+        { group: "Count", key: "Custom Software Dev", value: 25 },
+        { group: "Count", key: "DevOps", value: 23 },
+        { group: "Count", key: "Web Dev", value: 21 },
+        { group: "Count", key: "AI Consulting", value: 16 },
+        { group: "Count", key: "Cloud", value: 16 },
+        { group: "Count", key: "UI/UX", value: 16 },
+        { group: "Count", key: "NLP", value: 15 },
+        { group: "Count", key: "AI/ML", value: 15 },
+        { group: "Count", key: "Computer Vision", value: 13 },
+        { group: "Count", key: "Mobile Apps", value: 13 },
+        { group: "Count", key: "SEO", value: 13 },
+        { group: "Count", key: "IoT", value: 12 }
+      ],
+      options: {
+        theme,
+        axes: {
+          left: { mapsTo: "key", scaleType: "labels" },
+          bottom: { mapsTo: "value" }
+        },
+        bars: { maxWidth: 24 },
+        color: { scale: { "Count": "#1192e8" } },
+        legend: { enabled: false },
+        height: "400px"
+      }
+    });
+
+    // 6a. Confidence — Stacked bar
+    new Charts.StackedBarChart(document.getElementById("chart-confidence"), {
+      data: [
+        { group: "High", key: "Confidence", value: 73 },
+        { group: "Medium", key: "Confidence", value: 81 },
+        { group: "Low", key: "Confidence", value: 31 },
+        { group: "Very Low", key: "Confidence", value: 16 },
+        { group: "N/A", key: "Confidence", value: 32 }
+      ],
+      options: {
+        theme,
+        axes: {
+          left: { mapsTo: "key", scaleType: "labels" },
+          bottom: { mapsTo: "value", stacked: true }
+        },
+        bars: { maxWidth: 32 },
+        color: { scale: {
+          "High": "#24a148",
+          "Medium": "#0f62fe",
+          "Low": "#fa4d56",
+          "Very Low": "#da1e28",
+          "N/A": "#393939"
+        }},
+        height: "160px",
+        legend: { alignment: "center" }
+      }
+    });
+
+    // 6b. Verification Status — Bar
+    new Charts.SimpleBarChart(document.getElementById("chart-verification"), {
+      data: [
+        { group: "Status", key: "Verified", value: 62 },
+        { group: "Status", key: "Partially Verified", value: 48 },
+        { group: "Status", key: "Unverified", value: 24 },
+        { group: "Status", key: "Claimed", value: 22 },
+        { group: "Status", key: "Inferred", value: 17 },
+        { group: "Status", key: "Red Flag", value: 3 }
+      ],
+      options: {
+        theme,
+        axes: {
+          left: { mapsTo: "key", scaleType: "labels" },
+          bottom: { mapsTo: "value" }
+        },
+        bars: { maxWidth: 20 },
+        color: { scale: { "Status": "#9f1853" } },
+        legend: { enabled: false },
+        height: "200px"
+      }
+    });
+  </script>
+
+</body>
+</html>
