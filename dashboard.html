@@ -3,484 +3,767 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Agency Market Research — Dashboard</title>
-
-  <link rel="stylesheet" href="https://unpkg.com/@carbon/charts@1.27.3/dist/styles.min.css">
+  <title>AI Agency Market Research 2026 — Intelligence Dashboard</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
     :root {
-      --cds-text-01: #f4f4f4;
-      --cds-text-02: #c6c6c6;
-      --cds-ui-01: #262626;
-      --cds-ui-02: #393939;
-      --cds-ui-background: #161616;
-      --cds-interactive-01: #0f62fe;
-      --cds-interactive-02: #6929c4;
-      --cds-support-01: #da1e28;
-      --cds-support-02: #24a148;
-      --cds-support-03: #f1c21b;
+      --bg: #161616;
+      --layer-01: #262626;
+      --layer-02: #393939;
+      --border: #525252;
+      --text-primary: #f4f4f4;
+      --text-secondary: #c6c6c6;
+      --text-muted: #8d8d8d;
+      --blue-60: #0f62fe;
+      --blue-40: #78a9ff;
+      --purple-60: #8a3ffc;
+      --purple-40: #be95ff;
+      --teal-60: #009d9a;
+      --teal-40: #08bdba;
+      --magenta-60: #d02670;
+      --magenta-40: #ff7eb6;
+      --red-50: #fa4d56;
+      --green-50: #24a148;
+      --yellow-30: #f1c21b;
+      --cyan-40: #33b1ff;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { overflow-x: hidden; }
 
     body {
       font-family: 'IBM Plex Sans', -apple-system, sans-serif;
-      background: var(--cds-ui-background);
-      color: var(--cds-text-01);
-      min-height: 100vh;
-    }
-
-    .header {
-      background: var(--cds-ui-01);
-      border-bottom: 1px solid var(--cds-ui-02);
-      padding: 1rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .header h1 {
-      font-size: 1.25rem;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-    }
-
-    .header .subtitle {
-      color: var(--cds-text-02);
-      font-size: 0.875rem;
-    }
-
-    .stats-bar {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1px;
-      background: var(--cds-ui-02);
-      border-bottom: 1px solid var(--cds-ui-02);
-    }
-
-    .stat-card {
-      background: var(--cds-ui-01);
-      padding: 1.25rem 1.5rem;
-    }
-
-    .stat-card .label {
-      font-size: 0.75rem;
-      color: var(--cds-text-02);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 0.25rem;
-    }
-
-    .stat-card .value {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 2rem;
-      font-weight: 600;
-      color: var(--cds-interactive-01);
-    }
-
-    .stat-card .detail {
-      font-size: 0.75rem;
-      color: var(--cds-text-02);
-      margin-top: 0.25rem;
-    }
-
-    .dashboard {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1px;
-      background: var(--cds-ui-02);
-      padding: 0;
-    }
-
-    .chart-container {
-      background: var(--cds-ui-01);
-      padding: 1.5rem;
-      min-height: 420px;
-    }
-
-    .chart-container.full-width {
-      grid-column: 1 / -1;
-    }
-
-    .chart-title {
-      font-size: 0.875rem;
-      font-weight: 600;
-      margin-bottom: 0.25rem;
-    }
-
-    .chart-subtitle {
-      font-size: 0.75rem;
-      color: var(--cds-text-02);
-      margin-bottom: 1rem;
-    }
-
-    .chart-holder {
-      height: 340px;
-    }
-
-    .chart-holder.tall {
-      height: 400px;
-    }
-
-    .insight-bar {
-      background: var(--cds-ui-01);
-      border-top: 1px solid var(--cds-ui-02);
-      padding: 2rem;
-    }
-
-    .insight-bar h2 {
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-    }
-
-    .insights-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1rem;
-    }
-
-    .insight-card {
-      background: var(--cds-ui-background);
-      border: 1px solid var(--cds-ui-02);
-      border-left: 3px solid var(--cds-interactive-01);
-      padding: 1rem 1.25rem;
-      font-size: 0.875rem;
+      background: var(--bg);
+      color: var(--text-primary);
+      max-width: 100vw;
+      overflow-x: hidden;
       line-height: 1.5;
     }
 
-    .insight-card strong {
-      color: var(--cds-interactive-01);
+    /* ─── HEADER ─── */
+    .header {
+      background: var(--layer-01);
+      border-bottom: 1px solid var(--layer-02);
+      padding: 2rem 2.5rem 1.5rem;
+    }
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+    .header h1 {
+      font-size: 1.75rem;
+      font-weight: 300;
+      letter-spacing: -0.02em;
+    }
+    .header h1 strong { font-weight: 600; }
+    .header .tag {
+      background: var(--blue-60);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 0.2rem 0.75rem;
+      border-radius: 999px;
+    }
+    .header .sub {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
     }
 
-    .insight-card.warn {
-      border-left-color: var(--cds-support-03);
+    /* ─── STATS ROW ─── */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1px;
+      background: var(--layer-02);
+    }
+    .stat {
+      background: var(--layer-01);
+      padding: 1.25rem 1.5rem;
+    }
+    .stat .label {
+      font-size: 0.6875rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.25rem;
+    }
+    .stat .num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--blue-40);
+    }
+    .stat .note {
+      font-size: 0.6875rem;
+      color: var(--text-muted);
+      margin-top: 0.125rem;
     }
 
-    .insight-card.warn strong {
-      color: var(--cds-support-03);
+    /* ─── SECTIONS ─── */
+    .section {
+      padding: 2.5rem;
+      border-bottom: 1px solid var(--layer-02);
+    }
+    .section-title {
+      font-size: 0.6875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--blue-40);
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    .section-heading {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+    .section-sub {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      max-width: 680px;
     }
 
-    .insight-card.good {
-      border-left-color: var(--cds-support-02);
+    /* ─── BAR CHART (CSS-only) ─── */
+    .bar-chart { display: flex; flex-direction: column; gap: 0.5rem; }
+    .bar-row {
+      display: grid;
+      grid-template-columns: 200px 1fr 60px;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.8125rem;
+    }
+    .bar-label {
+      text-align: right;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .bar-track {
+      background: var(--layer-02);
+      height: 24px;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 0.6s ease;
+    }
+    .bar-val {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
     }
 
-    .insight-card.good strong {
-      color: var(--cds-support-02);
+    /* ─── GRID LAYOUTS ─── */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--layer-02);
     }
+    .grid-2 > div {
+      background: var(--bg);
+      padding: 2.5rem;
+    }
+
+    /* ─── FUNNEL ─── */
+    .funnel {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .funnel-stage {
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+    .funnel-bar {
+      margin: 0 auto;
+      text-align: center;
+      padding: 1rem 1.5rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #fff;
+      position: relative;
+      clip-path: polygon(4% 0%, 96% 0%, 100% 100%, 0% 100%);
+    }
+    .funnel-arrow {
+      text-align: center;
+      padding: 0.25rem 0;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+    }
+    .funnel-arrow span {
+      display: block;
+      font-family: 'IBM Plex Mono', monospace;
+      color: var(--text-secondary);
+      font-size: 0.6875rem;
+      margin-top: 0.125rem;
+    }
+    .funnel-detail {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    /* ─── DONUT (CSS) ─── */
+    .donut-container {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .donut-svg { flex-shrink: 0; }
+    .donut-legend { display: flex; flex-direction: column; gap: 0.5rem; }
+    .donut-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+    }
+    .donut-swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .donut-legend-val {
+      font-family: 'IBM Plex Mono', monospace;
+      color: var(--text-primary);
+      margin-left: auto;
+      padding-left: 1rem;
+    }
+
+    /* ─── CARDS ─── */
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .card {
+      background: var(--layer-01);
+      border: 1px solid var(--layer-02);
+      padding: 1.25rem 1.5rem;
+      border-left: 3px solid var(--blue-60);
+    }
+    .card.accent-purple { border-left-color: var(--purple-60); }
+    .card.accent-teal { border-left-color: var(--teal-60); }
+    .card.accent-magenta { border-left-color: var(--magenta-60); }
+    .card.accent-red { border-left-color: var(--red-50); }
+    .card.accent-green { border-left-color: var(--green-50); }
+    .card.accent-yellow { border-left-color: var(--yellow-30); }
+    .card .card-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--blue-40);
+    }
+    .card.accent-purple .card-num { color: var(--purple-40); }
+    .card.accent-teal .card-num { color: var(--teal-40); }
+    .card.accent-magenta .card-num { color: var(--magenta-40); }
+    .card.accent-red .card-num { color: var(--red-50); }
+    .card.accent-green .card-num { color: var(--green-50); }
+    .card.accent-yellow .card-num { color: var(--yellow-30); }
+    .card .card-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-top: 0.25rem;
+    }
+    .card .card-desc {
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      margin-top: 0.5rem;
+    }
+
+    /* ─── TABLE ─── */
+    .table-wrap { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8125rem;
+    }
+    th {
+      text-align: left;
+      font-size: 0.6875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      padding: 0.75rem 1rem;
+      border-bottom: 2px solid var(--layer-02);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--layer-02);
+      color: var(--text-secondary);
+      vertical-align: top;
+    }
+    tr:hover td { background: var(--layer-01); }
+    .pill {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      font-size: 0.6875rem;
+      font-weight: 500;
+    }
+    .pill-blue { background: rgba(15,98,254,0.2); color: var(--blue-40); }
+    .pill-purple { background: rgba(138,63,252,0.2); color: var(--purple-40); }
+    .pill-teal { background: rgba(0,157,154,0.2); color: var(--teal-40); }
+    .pill-magenta { background: rgba(208,38,112,0.2); color: var(--magenta-40); }
+
+    /* ─── INSIGHT BLOCK ─── */
+    .insight {
+      background: var(--layer-01);
+      border: 1px solid var(--layer-02);
+      border-left: 4px solid var(--yellow-30);
+      padding: 1.5rem 2rem;
+      margin-top: 1.5rem;
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+    .insight strong { color: var(--yellow-30); }
+    .insight.blue { border-left-color: var(--blue-60); }
+    .insight.blue strong { color: var(--blue-40); }
+    .insight.green { border-left-color: var(--green-50); }
+    .insight.green strong { color: var(--green-50); }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      padding: 2rem 2.5rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--layer-02);
+    }
+    .footer a { color: var(--blue-40); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
 
     @media (max-width: 900px) {
-      .dashboard { grid-template-columns: 1fr; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .bar-row { grid-template-columns: 120px 1fr 50px; }
+      .section { padding: 1.5rem; }
     }
   </style>
 </head>
 <body>
 
-  <div class="header">
+<!-- ═══════════ HEADER ═══════════ -->
+<div class="header">
+  <div class="header-top">
+    <h1>AI Agency <strong>Market Intelligence</strong></h1>
+    <span class="tag">April 2026</span>
+  </div>
+  <div class="sub">233 companies analyzed across 39 dimensions &mdash; traffic sources, sales funnels, pricing, services, and decision makers</div>
+</div>
+
+<!-- ═══════════ STATS ═══════════ -->
+<div class="stats">
+  <div class="stat">
+    <div class="label">Companies</div>
+    <div class="num">233</div>
+    <div class="note">11+ countries</div>
+  </div>
+  <div class="stat">
+    <div class="label">High confidence</div>
+    <div class="num">73</div>
+    <div class="note">31% of dataset</div>
+  </div>
+  <div class="stat">
+    <div class="label">Avg hourly rate</div>
+    <div class="num">$50-99</div>
+    <div class="note">most common bracket</div>
+  </div>
+  <div class="stat">
+    <div class="label">Dominant pricing</div>
+    <div class="num">72%</div>
+    <div class="note">project-based</div>
+  </div>
+  <div class="stat">
+    <div class="label">#1 Traffic source</div>
+    <div class="num">Clutch</div>
+    <div class="note">121 of 233 companies</div>
+  </div>
+</div>
+
+<!-- ═══════════ 1. TRAFFIC SOURCES ═══════════ -->
+<div class="section">
+  <div class="section-title">Section 01</div>
+  <div class="section-heading">Where Do AI Agencies Get Clients?</div>
+  <div class="section-sub">Traffic and lead sources identified across 233 companies. Most agencies rely on review platforms and inbound content &mdash; not paid ads.</div>
+
+  <div class="bar-chart">
+    <div class="bar-row">
+      <div class="bar-label"><a href="https://clutch.co" target="_blank" style="color:var(--blue-40)">Clutch.co</a></div>
+      <div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--blue-60)"></div></div>
+      <div class="bar-val">121</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Content Marketing / Blog</div>
+      <div class="bar-track"><div class="bar-fill" style="width:73%;background:var(--purple-60)"></div></div>
+      <div class="bar-val">89</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Partnerships / Integrations</div>
+      <div class="bar-track"><div class="bar-fill" style="width:68%;background:var(--teal-60)"></div></div>
+      <div class="bar-val">82</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">SEO / Google Organic</div>
+      <div class="bar-track"><div class="bar-fill" style="width:64%;background:var(--cyan-40)"></div></div>
+      <div class="bar-val">78</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label"><a href="https://linkedin.com" target="_blank" style="color:var(--blue-40)">LinkedIn</a></div>
+      <div class="bar-track"><div class="bar-fill" style="width:59%;background:var(--blue-60)"></div></div>
+      <div class="bar-val">71</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Referrals / Word of Mouth</div>
+      <div class="bar-track"><div class="bar-fill" style="width:17%;background:var(--purple-60)"></div></div>
+      <div class="bar-val">21</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Events / Webinars</div>
+      <div class="bar-track"><div class="bar-fill" style="width:12%;background:var(--teal-60)"></div></div>
+      <div class="bar-val">15</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label"><a href="https://g2.com" target="_blank" style="color:var(--blue-40)">G2</a></div>
+      <div class="bar-track"><div class="bar-fill" style="width:5%;background:var(--magenta-60)"></div></div>
+      <div class="bar-val">6</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Cold Outbound</div>
+      <div class="bar-track"><div class="bar-fill" style="width:4%;background:var(--red-50)"></div></div>
+      <div class="bar-val">5</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label"><a href="https://upwork.com" target="_blank" style="color:var(--blue-40)">Upwork / Freelance</a></div>
+      <div class="bar-track"><div class="bar-fill" style="width:4%;background:var(--red-50)"></div></div>
+      <div class="bar-val">5</div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <strong>Takeaway:</strong> Review platforms (Clutch, G2) and content/SEO drive the vast majority of leads. Almost no one relies on cold outbound or paid ads. If you're starting an AI agency, your first investment should be Clutch profile + SEO content, not ad spend.
+  </div>
+</div>
+
+<!-- ═══════════ 2. SALES FUNNEL ═══════════ -->
+<div class="section">
+  <div class="section-title">Section 02</div>
+  <div class="section-heading">How Does the Typical Sales Funnel Look?</div>
+  <div class="section-sub">The dominant funnel pattern across 233 agencies. The market has converged on a predictable 4-stage motion.</div>
+
+  <div class="funnel">
+    <div class="funnel-stage">
+      <div class="funnel-bar" style="width:100%;background:var(--blue-60);">
+        HOOK &mdash; Attract Attention
+      </div>
+    </div>
+    <div class="funnel-arrow">&#9660;<span>Clutch reviews (127) &bull; SEO/content (87) &bull; LinkedIn (71) &bull; Case studies (50)</span></div>
+
+    <div class="funnel-stage">
+      <div class="funnel-bar" style="width:85%;background:var(--purple-60);">
+        ENTRY &mdash; First Engagement
+      </div>
+    </div>
+    <div class="funnel-arrow">&#9660;<span>Free consultation (40) &bull; Lead magnet (14) &bull; Free AI audit (8) &bull; Website chatbot (5)</span></div>
+
+    <div class="funnel-stage">
+      <div class="funnel-bar" style="width:68%;background:var(--teal-60);">
+        QUALIFY &mdash; Scope &amp; Propose
+      </div>
+    </div>
+    <div class="funnel-arrow">&#9660;<span>Custom proposal / SOW (88) &bull; Discovery workshop &bull; Requirements gathering</span></div>
+
+    <div class="funnel-stage">
+      <div class="funnel-bar" style="width:52%;background:var(--magenta-60);">
+        CLOSE &mdash; Convert to Revenue
+      </div>
+    </div>
+    <div class="funnel-arrow"><span>Paid pilot / PoC (22) &bull; Fixed-scope project (39) &bull; Direct retainer (5)</span></div>
+  </div>
+
+  <div class="cards" style="margin-top:2rem">
+    <div class="card">
+      <div class="card-num">88</div>
+      <div class="card-title">Close with custom SOW</div>
+      <div class="card-desc">Most agencies write a bespoke proposal. No standard product, no self-serve pricing. Enterprise sales motion by default.</div>
+    </div>
+    <div class="card accent-purple">
+      <div class="card-num">40</div>
+      <div class="card-title">Free consultation as hook</div>
+      <div class="card-desc">The #1 entry point. Calendly + 30-min call. Low friction, but commoditized &mdash; hard to differentiate on this alone.</div>
+    </div>
+    <div class="card accent-teal">
+      <div class="card-num">22</div>
+      <div class="card-title">Paid pilot / PoC first</div>
+      <div class="card-desc">Smarter agencies sell a $2K-$10K pilot before the full engagement. De-risks the deal for both sides.</div>
+    </div>
+  </div>
+
+  <div class="insight blue">
+    <strong>Insight:</strong> The funnel is nearly identical everywhere: Clutch reviews &rarr; free consult &rarr; custom SOW &rarr; project. Agencies that break this pattern (paid audits, fixed-scope pilots, transparent pricing) stand out immediately.
+  </div>
+</div>
+
+<!-- ═══════════ 3. SERVICES & PRICING ═══════════ -->
+<div class="section">
+  <div class="section-title">Section 03</div>
+  <div class="section-heading">What Services Do They Sell &amp; At What Price?</div>
+  <div class="section-sub">Service categories and verified pricing data from Clutch, public websites, and case studies.</div>
+
+  <div class="bar-chart">
+    <div class="bar-row">
+      <div class="bar-label">Custom Software & Apps</div>
+      <div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--blue-60)"></div></div>
+      <div class="bar-val">105</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Workflow & Process Automation</div>
+      <div class="bar-track"><div class="bar-fill" style="width:93%;background:var(--purple-60)"></div></div>
+      <div class="bar-val">98</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">AI Strategy & Consulting</div>
+      <div class="bar-track"><div class="bar-fill" style="width:90%;background:var(--teal-60)"></div></div>
+      <div class="bar-val">94</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">AI Agents & Agentic Systems</div>
+      <div class="bar-track"><div class="bar-fill" style="width:84%;background:var(--cyan-40)"></div></div>
+      <div class="bar-val">88</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">ML & Data Science</div>
+      <div class="bar-track"><div class="bar-fill" style="width:58%;background:var(--blue-60)"></div></div>
+      <div class="bar-val">61</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Cloud & DevOps</div>
+      <div class="bar-track"><div class="bar-fill" style="width:51%;background:var(--purple-60)"></div></div>
+      <div class="bar-val">54</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Generative AI / LLM</div>
+      <div class="bar-track"><div class="bar-fill" style="width:43%;background:var(--teal-60)"></div></div>
+      <div class="bar-val">45</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Digital Marketing</div>
+      <div class="bar-track"><div class="bar-fill" style="width:38%;background:var(--magenta-60)"></div></div>
+      <div class="bar-val">40</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">CRM & Sales Automation</div>
+      <div class="bar-track"><div class="bar-fill" style="width:33%;background:var(--blue-60)"></div></div>
+      <div class="bar-val">35</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">AI Chatbots & Assistants</div>
+      <div class="bar-track"><div class="bar-fill" style="width:26%;background:var(--purple-60)"></div></div>
+      <div class="bar-val">27</div>
+    </div>
+  </div>
+
+  <!-- Pricing table -->
+  <h3 style="font-size:1rem;font-weight:600;margin:2.5rem 0 1rem">Pricing Benchmarks</h3>
+
+  <div class="grid-2" style="background:var(--layer-02)">
     <div>
-      <h1>AI Agency Market Research 2026</h1>
-      <div class="subtitle">Competitive intelligence across 233 companies — April 2026</div>
-    </div>
-    <div class="subtitle" style="font-family: 'IBM Plex Mono', monospace;">github.com/larsen66/ai-agency-market-research</div>
-  </div>
-
-  <div class="stats-bar">
-    <div class="stat-card">
-      <div class="label">Companies Analyzed</div>
-      <div class="value">233</div>
-      <div class="detail">39 data points each</div>
-    </div>
-    <div class="stat-card">
-      <div class="label">High Confidence</div>
-      <div class="value">73</div>
-      <div class="detail">31% of dataset</div>
-    </div>
-    <div class="stat-card">
-      <div class="label">Verified</div>
-      <div class="value">62</div>
-      <div class="detail">27% fully verified</div>
-    </div>
-    <div class="stat-card">
-      <div class="label">Countries</div>
-      <div class="value">11+</div>
-      <div class="detail">US, UK, India dominant</div>
-    </div>
-    <div class="stat-card">
-      <div class="label">Dominant Pricing</div>
-      <div class="value">72%</div>
-      <div class="detail">Project-based model</div>
-    </div>
-  </div>
-
-  <div class="dashboard">
-    <div class="chart-container">
-      <div class="chart-title">Company Types</div>
-      <div class="chart-subtitle">Distribution across agency categories</div>
-      <div id="chart-types" class="chart-holder"></div>
-    </div>
-
-    <div class="chart-container">
-      <div class="chart-title">Company Size</div>
-      <div class="chart-subtitle">Employee count distribution</div>
-      <div id="chart-sizes" class="chart-holder"></div>
-    </div>
-
-    <div class="chart-container">
-      <div class="chart-title">Geography</div>
-      <div class="chart-subtitle">HQ location distribution</div>
-      <div id="chart-geo" class="chart-holder"></div>
-    </div>
-
-    <div class="chart-container">
-      <div class="chart-title">Pricing Models</div>
-      <div class="chart-subtitle">How agencies charge clients</div>
-      <div id="chart-pricing" class="chart-holder"></div>
-    </div>
-
-    <div class="chart-container">
-      <div class="chart-title">Top Services Offered</div>
-      <div class="chart-subtitle">Most frequent service categories across all companies</div>
-      <div id="chart-services" class="chart-holder tall"></div>
-    </div>
-
-    <div class="chart-container">
-      <div class="chart-title">Data Quality</div>
-      <div class="chart-subtitle">Confidence level and verification status</div>
-      <div id="chart-confidence" class="chart-holder" style="height: 160px;"></div>
-      <div id="chart-verification" class="chart-holder" style="height: 200px; margin-top: 1rem;"></div>
-    </div>
-  </div>
-
-  <div class="insight-bar">
-    <h2>Key Insights</h2>
-    <div class="insights-grid">
-      <div class="insight-card good">
-        <strong>Strongest first offer:</strong> AI Lead Response & Follow-Up System. Highest SMB fit across ease of sale, speed to result, ROI clarity, and upsell potential.
+      <h4 style="font-size:0.8125rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem">Hourly Rates (Clutch verified)</h4>
+      <div class="bar-chart">
+        <div class="bar-row">
+          <div class="bar-label">$50-99/hr</div>
+          <div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--blue-60)"></div></div>
+          <div class="bar-val">27</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">$25-49/hr</div>
+          <div class="bar-track"><div class="bar-fill" style="width:67%;background:var(--teal-60)"></div></div>
+          <div class="bar-val">18</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">$100-149/hr</div>
+          <div class="bar-track"><div class="bar-fill" style="width:30%;background:var(--purple-60)"></div></div>
+          <div class="bar-val">8</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">$150-199/hr</div>
+          <div class="bar-track"><div class="bar-fill" style="width:19%;background:var(--magenta-60)"></div></div>
+          <div class="bar-val">5</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">$200+/hr</div>
+          <div class="bar-track"><div class="bar-fill" style="width:15%;background:var(--red-50)"></div></div>
+          <div class="bar-val">4</div>
+        </div>
       </div>
-      <div class="insight-card">
-        <strong>72% use project-based pricing.</strong> Fixed-scope engagements dominate. Retainer and subscription models are underrepresented — opportunity for recurring revenue positioning.
+    </div>
+    <div>
+      <h4 style="font-size:0.8125rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem">Minimum Project Size</h4>
+      <div class="bar-chart">
+        <div class="bar-row">
+          <div class="bar-label">$25K+</div>
+          <div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--blue-60)"></div></div>
+          <div class="bar-val">11</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">$10K+</div>
+          <div class="bar-track"><div class="bar-fill" style="width:91%;background:var(--teal-60)"></div></div>
+          <div class="bar-val">10</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">$5K+</div>
+          <div class="bar-track"><div class="bar-fill" style="width:36%;background:var(--purple-60)"></div></div>
+          <div class="bar-val">4</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">$1K+</div>
+          <div class="bar-track"><div class="bar-fill" style="width:27%;background:var(--magenta-60)"></div></div>
+          <div class="bar-val">3</div>
+        </div>
       </div>
-      <div class="insight-card warn">
-        <strong>Weak players sell abstractions.</strong> "AI strategy", "readiness", "transformation" — overused and commoditized. Strong players sell specific pain relief: faster response, fewer losses, less manual work.
-      </div>
-      <div class="insight-card">
-        <strong>51% are small teams (10-50 people).</strong> The market is fragmented with many small operators. No dominant player in the SMB automation niche yet.
-      </div>
-      <div class="insight-card good">
-        <strong>Dev shops are the largest category (64).</strong> Most are offshore generalists adding "AI" to their pitch. True AI-native agencies are a minority — differentiation opportunity.
-      </div>
-      <div class="insight-card warn">
-        <strong>27 companies have red flags or low evidence.</strong> No named clients despite years in business, unverifiable claims, or inflated positioning. Buyers should verify carefully.
+
+      <h4 style="font-size:0.8125rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin:2rem 0 1rem">Typical project ranges</h4>
+      <div style="font-size:0.8125rem;color:var(--text-secondary);line-height:2">
+        <div>AI Chatbot: <span style="color:var(--blue-40);font-family:'IBM Plex Mono',monospace">$3K &mdash; $15K</span></div>
+        <div>Workflow Automation: <span style="color:var(--blue-40);font-family:'IBM Plex Mono',monospace">$5K &mdash; $25K</span></div>
+        <div>Custom AI Agent: <span style="color:var(--blue-40);font-family:'IBM Plex Mono',monospace">$10K &mdash; $50K</span></div>
+        <div>Enterprise AI: <span style="color:var(--blue-40);font-family:'IBM Plex Mono',monospace">$25K &mdash; $200K+</span></div>
+        <div>Full Engagement: <span style="color:var(--blue-40);font-family:'IBM Plex Mono',monospace">$40K &mdash; $200K</span></div>
       </div>
     </div>
   </div>
 
-  <script src="https://unpkg.com/@carbon/charts@1.27.3/dist/umd/bundle.umd.js"></script>
-  <script>
-    const g100 = {
-      "background": { "color": "#161616" },
-      "text": { "color": "#f4f4f4" },
-      "axis": { "line": { "color": "#393939" }, "label": { "color": "#c6c6c6" } },
-      "grid": { "line": { "color": "#262626" } },
-      "legend": { "text": { "color": "#c6c6c6" } },
-      "tooltip": { "background": { "color": "#262626" }, "text": { "color": "#f4f4f4" } }
-    };
+  <div class="insight">
+    <strong>Takeaway:</strong> The $50-99/hr bracket is the market center of gravity. $25-49/hr signals offshore teams (India, LATAM). Above $150/hr signals US/UK boutique or enterprise consulting. The sweet spot for a new agency is $75-120/hr with fixed-scope packages &mdash; removes rate comparison and focuses on value.
+  </div>
+</div>
 
-    const carbonColors = [
-      "#0f62fe", "#6929c4", "#1192e8", "#005d5d", "#9f1853",
-      "#fa4d56", "#570408", "#198038", "#002d9c", "#ee538b",
-      "#b28600", "#009d9a"
-    ];
+<!-- ═══════════ 4. DECISION MAKERS ═══════════ -->
+<div class="section">
+  <div class="section-title">Section 04</div>
+  <div class="section-heading">Who Are the Decision Makers?</div>
+  <div class="section-sub">The roles that actually sign off on AI agency engagements, based on buyer profiles across 233 companies.</div>
 
-    const theme = "g100";
+  <div class="bar-chart">
+    <div class="bar-row">
+      <div class="bar-label">CTO / VP Engineering</div>
+      <div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--blue-60)"></div></div>
+      <div class="bar-val">159</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">CEO / Founder</div>
+      <div class="bar-track"><div class="bar-fill" style="width:50%;background:var(--purple-60)"></div></div>
+      <div class="bar-val">80</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">COO / Head of Ops</div>
+      <div class="bar-track"><div class="bar-fill" style="width:27%;background:var(--teal-60)"></div></div>
+      <div class="bar-val">43</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Business Owner</div>
+      <div class="bar-track"><div class="bar-fill" style="width:23%;background:var(--cyan-40)"></div></div>
+      <div class="bar-val">36</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Product Lead</div>
+      <div class="bar-track"><div class="bar-fill" style="width:19%;background:var(--blue-60)"></div></div>
+      <div class="bar-val">30</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">CMO / Marketing Lead</div>
+      <div class="bar-track"><div class="bar-fill" style="width:17%;background:var(--magenta-60)"></div></div>
+      <div class="bar-val">27</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Digital Transformation Lead</div>
+      <div class="bar-track"><div class="bar-fill" style="width:11%;background:var(--purple-60)"></div></div>
+      <div class="bar-val">17</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">CIO / IT Director</div>
+      <div class="bar-track"><div class="bar-fill" style="width:11%;background:var(--teal-60)"></div></div>
+      <div class="bar-val">17</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Sales / Revenue Lead</div>
+      <div class="bar-track"><div class="bar-fill" style="width:4%;background:var(--magenta-60)"></div></div>
+      <div class="bar-val">7</div>
+    </div>
+  </div>
 
-    // 1. Company Types — Bar
-    new Charts.SimpleBarChart(document.getElementById("chart-types"), {
-      data: [
-        { group: "Companies", key: "Dev Shop", value: 64 },
-        { group: "Companies", key: "AI Consultancy", value: 50 },
-        { group: "Companies", key: "AI Agency", value: 42 },
-        { group: "Companies", key: "AI Automation", value: 21 },
-        { group: "Companies", key: "Marketing", value: 13 },
-        { group: "Companies", key: "Not Applicable", value: 9 },
-        { group: "Companies", key: "SaaS/Product", value: 6 },
-        { group: "Companies", key: "Enterprise IT", value: 4 },
-        { group: "Companies", key: "Other", value: 24 }
-      ],
-      options: {
-        theme,
-        axes: {
-          left: { mapsTo: "key", scaleType: "labels" },
-          bottom: { mapsTo: "value" }
-        },
-        bars: { maxWidth: 28 },
-        color: { scale: { "Companies": "#0f62fe" } },
-        legend: { enabled: false },
-        height: "340px"
-      }
-    });
+  <div class="cards" style="margin-top:2rem">
+    <div class="card accent-green">
+      <div class="card-num">68%</div>
+      <div class="card-title">Technical buyer dominance</div>
+      <div class="card-desc">CTO/VP Eng is the primary DM in 68% of cases. Your marketing, case studies, and proof points must speak to technical credibility first.</div>
+    </div>
+    <div class="card accent-yellow">
+      <div class="card-num">CEO + Owner</div>
+      <div class="card-title">SMB = founder sells to founder</div>
+      <div class="card-desc">In companies under 50 people, CEO/founder and business owner together are the buyer in 50% of deals. Skip the org chart &mdash; go direct.</div>
+    </div>
+    <div class="card accent-magenta">
+      <div class="card-num">3%</div>
+      <div class="card-title">Sales leads rarely buy AI</div>
+      <div class="card-desc">Only 7 out of 233 companies sell to sales/revenue leads. Huge blind spot &mdash; sales automation is a $3-15K use case that almost nobody is targeting this buyer for.</div>
+    </div>
+  </div>
 
-    // 2. Company Size — Donut
-    new Charts.DonutChart(document.getElementById("chart-sizes"), {
-      data: [
-        { group: "Small (10-50)", value: 119 },
-        { group: "Medium (50-200)", value: 58 },
-        { group: "Micro (<10)", value: 33 },
-        { group: "Large (200+)", value: 23 }
-      ],
-      options: {
-        theme,
-        resizable: true,
-        donut: { center: { label: "233", number: "companies" } },
-        color: { scale: {
-          "Small (10-50)": "#0f62fe",
-          "Medium (50-200)": "#6929c4",
-          "Micro (<10)": "#1192e8",
-          "Large (200+)": "#005d5d"
-        }},
-        height: "340px",
-        legend: { alignment: "center" }
-      }
-    });
+  <div class="insight green">
+    <strong>Insight:</strong> The market sells to CTOs because that's who agencies are comfortable pitching. But SMB revenue pain is felt by founders and ops leads. Agencies that learn to sell AI outcomes (not AI tech) to non-technical buyers will find less competition and faster close rates.
+  </div>
+</div>
 
-    // 3. Geography — Bar
-    new Charts.SimpleBarChart(document.getElementById("chart-geo"), {
-      data: [
-        { group: "HQ", key: "UK", value: 43 },
-        { group: "HQ", key: "USA", value: 39 },
-        { group: "HQ", key: "India", value: 27 },
-        { group: "HQ", key: "US + India", value: 15 },
-        { group: "HQ", key: "Germany", value: 11 },
-        { group: "HQ", key: "Poland", value: 6 },
-        { group: "HQ", key: "Australia", value: 6 },
-        { group: "HQ", key: "Canada", value: 4 },
-        { group: "HQ", key: "UAE", value: 4 },
-        { group: "HQ", key: "Netherlands", value: 4 },
-        { group: "HQ", key: "Other", value: 74 }
-      ],
-      options: {
-        theme,
-        axes: {
-          left: { mapsTo: "key", scaleType: "labels" },
-          bottom: { mapsTo: "value" }
-        },
-        bars: { maxWidth: 24 },
-        color: { scale: { "HQ": "#6929c4" } },
-        legend: { enabled: false },
-        height: "340px"
-      }
-    });
+<!-- ═══════════ 5. STRATEGIC CONCLUSIONS ═══════════ -->
+<div class="section">
+  <div class="section-title">Section 05</div>
+  <div class="section-heading">The Pattern That Separates Winners from Noise</div>
 
-    // 4. Pricing — Donut
-    new Charts.DonutChart(document.getElementById("chart-pricing"), {
-      data: [
-        { group: "Project-Based", value: 167 },
-        { group: "Consulting", value: 17 },
-        { group: "Not Public", value: 8 },
-        { group: "Subscription/SaaS", value: 7 },
-        { group: "Retainer", value: 6 },
-        { group: "Value/Outcome", value: 2 },
-        { group: "Other", value: 26 }
-      ],
-      options: {
-        theme,
-        resizable: true,
-        donut: { center: { label: "72%", number: "project-based" } },
-        color: { scale: {
-          "Project-Based": "#0f62fe",
-          "Consulting": "#6929c4",
-          "Not Public": "#393939",
-          "Subscription/SaaS": "#1192e8",
-          "Retainer": "#005d5d",
-          "Value/Outcome": "#9f1853",
-          "Other": "#525252"
-        }},
-        height: "340px",
-        legend: { alignment: "center" }
-      }
-    });
+  <div class="grid-2" style="margin-top:1.5rem;background:var(--layer-02)">
+    <div>
+      <h4 style="color:var(--red-50);font-size:0.875rem;margin-bottom:1rem">Weak players sell abstractions</h4>
+      <div style="font-size:0.875rem;color:var(--text-secondary);line-height:1.8">
+        <div style="padding:0.5rem 0;border-bottom:1px solid var(--layer-02)">"AI Strategy & Transformation"</div>
+        <div style="padding:0.5rem 0;border-bottom:1px solid var(--layer-02)">"AI Readiness Assessment"</div>
+        <div style="padding:0.5rem 0;border-bottom:1px solid var(--layer-02)">"Custom AI Agents" (vague)</div>
+        <div style="padding:0.5rem 0;border-bottom:1px solid var(--layer-02)">"End-to-End AI Solutions"</div>
+        <div style="padding:0.5rem 0">"Digital Transformation"</div>
+      </div>
+      <div style="margin-top:1rem;font-size:0.8125rem;color:var(--text-muted)">94 companies (40%) offer "AI consulting" &mdash; the most commoditized service in the dataset. No differentiation, no measurable outcome, no urgency.</div>
+    </div>
+    <div>
+      <h4 style="color:var(--green-50);font-size:0.875rem;margin-bottom:1rem">Strong players sell pain relief</h4>
+      <div style="font-size:0.875rem;color:var(--text-secondary);line-height:1.8">
+        <div style="padding:0.5rem 0;border-bottom:1px solid var(--layer-02)">"Respond to every lead in under 2 minutes"</div>
+        <div style="padding:0.5rem 0;border-bottom:1px solid var(--layer-02)">"Cut manual invoice processing by 80%"</div>
+        <div style="padding:0.5rem 0;border-bottom:1px solid var(--layer-02)">"Stop losing leads after business hours"</div>
+        <div style="padding:0.5rem 0;border-bottom:1px solid var(--layer-02)">"Automate your 2 most expensive manual processes in 30 days"</div>
+        <div style="padding:0.5rem 0">"Book more appointments from existing inbound"</div>
+      </div>
+      <div style="margin-top:1rem;font-size:0.8125rem;color:var(--text-muted)">These agencies close faster, command higher prices, and retain clients longer. The buyer understands the value in 15 seconds.</div>
+    </div>
+  </div>
 
-    // 5. Top Services — Bar
-    new Charts.SimpleBarChart(document.getElementById("chart-services"), {
-      data: [
-        { group: "Count", key: "Custom Software Dev", value: 25 },
-        { group: "Count", key: "DevOps", value: 23 },
-        { group: "Count", key: "Web Dev", value: 21 },
-        { group: "Count", key: "AI Consulting", value: 16 },
-        { group: "Count", key: "Cloud", value: 16 },
-        { group: "Count", key: "UI/UX", value: 16 },
-        { group: "Count", key: "NLP", value: 15 },
-        { group: "Count", key: "AI/ML", value: 15 },
-        { group: "Count", key: "Computer Vision", value: 13 },
-        { group: "Count", key: "Mobile Apps", value: 13 },
-        { group: "Count", key: "SEO", value: 13 },
-        { group: "Count", key: "IoT", value: 12 }
-      ],
-      options: {
-        theme,
-        axes: {
-          left: { mapsTo: "key", scaleType: "labels" },
-          bottom: { mapsTo: "value" }
-        },
-        bars: { maxWidth: 24 },
-        color: { scale: { "Count": "#1192e8" } },
-        legend: { enabled: false },
-        height: "400px"
-      }
-    });
+  <div class="insight" style="margin-top:1.5rem">
+    <strong>The core finding from 233 companies:</strong> Businesses don't buy AI. They buy outcomes. The market rewards specificity over capability. The best first offer is not "we do AI" &mdash; it's "we solve this one expensive problem you have right now, and we do it in 2 weeks."
+  </div>
+</div>
 
-    // 6a. Confidence — Stacked bar
-    new Charts.StackedBarChart(document.getElementById("chart-confidence"), {
-      data: [
-        { group: "High", key: "Confidence", value: 73 },
-        { group: "Medium", key: "Confidence", value: 81 },
-        { group: "Low", key: "Confidence", value: 31 },
-        { group: "Very Low", key: "Confidence", value: 16 },
-        { group: "N/A", key: "Confidence", value: 32 }
-      ],
-      options: {
-        theme,
-        axes: {
-          left: { mapsTo: "key", scaleType: "labels" },
-          bottom: { mapsTo: "value", stacked: true }
-        },
-        bars: { maxWidth: 32 },
-        color: { scale: {
-          "High": "#24a148",
-          "Medium": "#0f62fe",
-          "Low": "#fa4d56",
-          "Very Low": "#da1e28",
-          "N/A": "#393939"
-        }},
-        height: "160px",
-        legend: { alignment: "center" }
-      }
-    });
-
-    // 6b. Verification Status — Bar
-    new Charts.SimpleBarChart(document.getElementById("chart-verification"), {
-      data: [
-        { group: "Status", key: "Verified", value: 62 },
-        { group: "Status", key: "Partially Verified", value: 48 },
-        { group: "Status", key: "Unverified", value: 24 },
-        { group: "Status", key: "Claimed", value: 22 },
-        { group: "Status", key: "Inferred", value: 17 },
-        { group: "Status", key: "Red Flag", value: 3 }
-      ],
-      options: {
-        theme,
-        axes: {
-          left: { mapsTo: "key", scaleType: "labels" },
-          bottom: { mapsTo: "value" }
-        },
-        bars: { maxWidth: 20 },
-        color: { scale: { "Status": "#9f1853" } },
-        legend: { enabled: false },
-        height: "200px"
-      }
-    });
-  </script>
+<!-- ═══════════ FOOTER ═══════════ -->
+<div class="footer">
+  Data as of April 2026 &bull; 233 companies &bull; 39 fields per company &bull; Public sources only (Clutch, LinkedIn, company websites, Crunchbase) &bull;
+  <a href="https://github.com/larsen66/ai-agency-market-research" target="_blank">github.com/larsen66/ai-agency-market-research</a>
+</div>
 
 </body>
 </html>
