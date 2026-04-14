@@ -1,331 +1,192 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Agency Market Research 2026 — Intelligence Dashboard</title>
+  <title>AI Agency Market Research 2026</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
-    :root {
-      --bg: #161616;
-      --layer-01: #262626;
-      --layer-02: #393939;
-      --border: #525252;
-      --text-primary: #f4f4f4;
-      --text-secondary: #c6c6c6;
-      --text-muted: #8d8d8d;
-      --blue-60: #0f62fe;
-      --blue-40: #78a9ff;
-      --purple-60: #8a3ffc;
-      --purple-40: #be95ff;
-      --teal-60: #009d9a;
-      --teal-40: #08bdba;
-      --magenta-60: #d02670;
-      --magenta-40: #ff7eb6;
-      --red-50: #fa4d56;
-      --green-50: #24a148;
-      --yellow-30: #f1c21b;
-      --cyan-40: #33b1ff;
+    /* ─── THEME TOKENS ─── */
+    [data-theme="dark"] {
+      --bg: #161616; --layer-01: #262626; --layer-02: #393939;
+      --text-primary: #f4f4f4; --text-secondary: #c6c6c6; --text-muted: #8d8d8d;
+      --blue-60: #0f62fe; --blue-40: #78a9ff; --purple-60: #8a3ffc; --purple-40: #be95ff;
+      --teal-60: #009d9a; --teal-40: #08bdba; --magenta-60: #d02670; --magenta-40: #ff7eb6;
+      --red-50: #fa4d56; --green-50: #24a148; --yellow-30: #f1c21b; --cyan-40: #33b1ff;
+      --toggle-bg: #393939; --toggle-dot: #f4f4f4;
+    }
+    [data-theme="light"] {
+      --bg: #f4f4f4; --layer-01: #ffffff; --layer-02: #e0e0e0;
+      --text-primary: #161616; --text-secondary: #525252; --text-muted: #8d8d8d;
+      --blue-60: #0f62fe; --blue-40: #0043ce; --purple-60: #8a3ffc; --purple-40: #6929c4;
+      --teal-60: #009d9a; --teal-40: #005d5d; --magenta-60: #d02670; --magenta-40: #9f1853;
+      --red-50: #da1e28; --green-50: #198038; --yellow-30: #b28600; --cyan-40: #0072c3;
+      --toggle-bg: #c6c6c6; --toggle-dot: #ffffff;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { overflow-x: hidden; }
-
     body {
       font-family: 'IBM Plex Sans', -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--text-primary);
-      max-width: 100vw;
-      overflow-x: hidden;
-      line-height: 1.5;
+      background: var(--bg); color: var(--text-primary);
+      max-width: 100vw; overflow-x: hidden; line-height: 1.5;
+      transition: background 0.3s, color 0.3s;
     }
+
+    /* ─── LANG TOGGLE ─── */
+    [data-lang="ru"] { display: none; }
+    [data-active-lang="ru"] [data-lang="ru"] { display: block; }
+    [data-active-lang="ru"] [data-lang="en"] { display: none; }
+    span[data-lang="ru"], span[data-lang="en"] { display: inline; }
+    [data-active-lang="ru"] span[data-lang="ru"] { display: inline; }
+    [data-active-lang="ru"] span[data-lang="en"] { display: none; }
 
     /* ─── HEADER ─── */
     .header {
-      background: var(--layer-01);
-      border-bottom: 1px solid var(--layer-02);
-      padding: 2rem 2.5rem 1.5rem;
+      background: var(--layer-01); border-bottom: 1px solid var(--layer-02);
+      padding: 1.5rem 2.5rem 1.25rem;
     }
     .header-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 0.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.75rem;
     }
-    .header h1 {
-      font-size: 1.75rem;
-      font-weight: 300;
-      letter-spacing: -0.02em;
-    }
+    .header h1 { font-size: 1.5rem; font-weight: 300; letter-spacing: -0.02em; }
     .header h1 strong { font-weight: 600; }
-    .header .tag {
-      background: var(--blue-60);
-      color: #fff;
-      font-size: 0.75rem;
-      font-weight: 500;
-      padding: 0.2rem 0.75rem;
-      border-radius: 999px;
+    .header .sub { color: var(--text-secondary); font-size: 0.875rem; }
+    .controls { display: flex; align-items: center; gap: 1rem; }
+    .tag {
+      background: var(--blue-60); color: #fff; font-size: 0.6875rem;
+      font-weight: 500; padding: 0.2rem 0.6rem; border-radius: 999px;
     }
-    .header .sub {
-      color: var(--text-secondary);
-      font-size: 0.875rem;
+
+    /* Toggle switch */
+    .toggle-wrap {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.75rem; color: var(--text-muted); cursor: pointer; user-select: none;
     }
+    .toggle-track {
+      width: 36px; height: 20px; background: var(--toggle-bg);
+      border-radius: 10px; position: relative; transition: background 0.2s;
+    }
+    .toggle-track::after {
+      content: ''; position: absolute; top: 3px; left: 3px;
+      width: 14px; height: 14px; border-radius: 50%;
+      background: var(--toggle-dot); transition: transform 0.2s;
+    }
+    .toggle-track.on::after { transform: translateX(16px); }
+
+    /* Lang button */
+    .lang-btn {
+      background: var(--layer-02); border: 1px solid var(--layer-02);
+      color: var(--text-secondary); font-size: 0.75rem; font-weight: 600;
+      padding: 0.25rem 0.75rem; border-radius: 4px; cursor: pointer;
+      font-family: 'IBM Plex Mono', monospace; transition: all 0.2s;
+    }
+    .lang-btn:hover { border-color: var(--blue-60); color: var(--text-primary); }
 
     /* ─── STATS ROW ─── */
     .stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1px;
-      background: var(--layer-02);
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 1px; background: var(--layer-02);
     }
-    .stat {
-      background: var(--layer-01);
-      padding: 1.25rem 1.5rem;
-    }
+    .stat { background: var(--layer-01); padding: 1.25rem 1.5rem; }
     .stat .label {
-      font-size: 0.6875rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 0.25rem;
+      font-size: 0.6875rem; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.25rem;
     }
     .stat .num {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 1.75rem;
-      font-weight: 600;
-      color: var(--blue-40);
+      font-size: 1.75rem; font-weight: 600; color: var(--blue-40);
     }
-    .stat .note {
-      font-size: 0.6875rem;
-      color: var(--text-muted);
-      margin-top: 0.125rem;
-    }
+    .stat .note { font-size: 0.6875rem; color: var(--text-muted); margin-top: 0.125rem; }
 
     /* ─── SECTIONS ─── */
-    .section {
-      padding: 2.5rem;
-      border-bottom: 1px solid var(--layer-02);
-    }
+    .section { padding: 2.5rem; border-bottom: 1px solid var(--layer-02); }
     .section-title {
-      font-size: 0.6875rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--blue-40);
-      margin-bottom: 0.5rem;
-      font-weight: 600;
+      font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--blue-40); margin-bottom: 0.5rem; font-weight: 600;
     }
-    .section-heading {
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin-bottom: 0.25rem;
-    }
+    .section-heading { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.25rem; }
     .section-sub {
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-      margin-bottom: 2rem;
-      max-width: 680px;
+      font-size: 0.875rem; color: var(--text-secondary);
+      margin-bottom: 2rem; max-width: 720px;
     }
 
-    /* ─── BAR CHART (CSS-only) ─── */
+    /* ─── BARS ─── */
     .bar-chart { display: flex; flex-direction: column; gap: 0.5rem; }
     .bar-row {
-      display: grid;
-      grid-template-columns: 200px 1fr 60px;
-      align-items: center;
-      gap: 0.75rem;
-      font-size: 0.8125rem;
+      display: grid; grid-template-columns: 200px 1fr 60px;
+      align-items: center; gap: 0.75rem; font-size: 0.8125rem;
     }
     .bar-label {
-      text-align: right;
-      color: var(--text-secondary);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      text-align: right; color: var(--text-secondary);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
+    .bar-label a { color: var(--blue-40); text-decoration: none; }
+    .bar-label a:hover { text-decoration: underline; }
     .bar-track {
-      background: var(--layer-02);
-      height: 24px;
-      border-radius: 2px;
-      overflow: hidden;
+      background: var(--layer-02); height: 24px; border-radius: 2px; overflow: hidden;
     }
-    .bar-fill {
-      height: 100%;
-      border-radius: 2px;
-      transition: width 0.6s ease;
-    }
+    .bar-fill { height: 100%; border-radius: 2px; transition: width 0.6s ease; }
     .bar-val {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.8125rem;
-      color: var(--text-secondary);
+      font-size: 0.8125rem; color: var(--text-secondary);
     }
 
-    /* ─── GRID LAYOUTS ─── */
+    /* ─── GRIDS ─── */
     .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1px;
-      background: var(--layer-02);
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 1px; background: var(--layer-02);
     }
-    .grid-2 > div {
-      background: var(--bg);
-      padding: 2.5rem;
-    }
+    .grid-2 > div { background: var(--bg); padding: 2.5rem; }
 
     /* ─── FUNNEL ─── */
-    .funnel {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    .funnel-stage {
-      display: flex;
-      align-items: center;
-      position: relative;
-    }
+    .funnel { display: flex; flex-direction: column; max-width: 600px; margin: 0 auto; }
     .funnel-bar {
-      margin: 0 auto;
-      text-align: center;
-      padding: 1rem 1.5rem;
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: #fff;
-      position: relative;
+      margin: 0 auto; text-align: center; padding: 1rem 1.5rem;
+      font-size: 0.875rem; font-weight: 500; color: #fff;
       clip-path: polygon(4% 0%, 96% 0%, 100% 100%, 0% 100%);
     }
     .funnel-arrow {
-      text-align: center;
-      padding: 0.25rem 0;
-      color: var(--text-muted);
-      font-size: 0.75rem;
+      text-align: center; padding: 0.25rem 0;
+      color: var(--text-muted); font-size: 0.75rem;
     }
     .funnel-arrow span {
-      display: block;
-      font-family: 'IBM Plex Mono', monospace;
-      color: var(--text-secondary);
-      font-size: 0.6875rem;
-      margin-top: 0.125rem;
-    }
-    .funnel-detail {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-top: 0.25rem;
-    }
-
-    /* ─── DONUT (CSS) ─── */
-    .donut-container {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-      flex-wrap: wrap;
-    }
-    .donut-svg { flex-shrink: 0; }
-    .donut-legend { display: flex; flex-direction: column; gap: 0.5rem; }
-    .donut-legend-item {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.8125rem;
-      color: var(--text-secondary);
-    }
-    .donut-swatch {
-      width: 12px;
-      height: 12px;
-      border-radius: 2px;
-      flex-shrink: 0;
-    }
-    .donut-legend-val {
-      font-family: 'IBM Plex Mono', monospace;
-      color: var(--text-primary);
-      margin-left: auto;
-      padding-left: 1rem;
+      display: block; font-family: 'IBM Plex Mono', monospace;
+      color: var(--text-secondary); font-size: 0.6875rem; margin-top: 0.125rem;
     }
 
     /* ─── CARDS ─── */
     .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
     .card {
-      background: var(--layer-01);
-      border: 1px solid var(--layer-02);
-      padding: 1.25rem 1.5rem;
-      border-left: 3px solid var(--blue-60);
+      background: var(--layer-01); border: 1px solid var(--layer-02);
+      padding: 1.25rem 1.5rem; border-left: 3px solid var(--blue-60);
     }
-    .card.accent-purple { border-left-color: var(--purple-60); }
-    .card.accent-teal { border-left-color: var(--teal-60); }
-    .card.accent-magenta { border-left-color: var(--magenta-60); }
-    .card.accent-red { border-left-color: var(--red-50); }
-    .card.accent-green { border-left-color: var(--green-50); }
-    .card.accent-yellow { border-left-color: var(--yellow-30); }
+    .card.purple { border-left-color: var(--purple-60); }
+    .card.teal { border-left-color: var(--teal-60); }
+    .card.magenta { border-left-color: var(--magenta-60); }
+    .card.red { border-left-color: var(--red-50); }
+    .card.green { border-left-color: var(--green-50); }
+    .card.yellow { border-left-color: var(--yellow-30); }
     .card .card-num {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 1.5rem;
-      font-weight: 600;
+      font-family: 'IBM Plex Mono', monospace; font-size: 1.5rem; font-weight: 600;
       color: var(--blue-40);
     }
-    .card.accent-purple .card-num { color: var(--purple-40); }
-    .card.accent-teal .card-num { color: var(--teal-40); }
-    .card.accent-magenta .card-num { color: var(--magenta-40); }
-    .card.accent-red .card-num { color: var(--red-50); }
-    .card.accent-green .card-num { color: var(--green-50); }
-    .card.accent-yellow .card-num { color: var(--yellow-30); }
-    .card .card-title {
-      font-size: 0.875rem;
-      font-weight: 600;
-      margin-top: 0.25rem;
-    }
-    .card .card-desc {
-      font-size: 0.8125rem;
-      color: var(--text-secondary);
-      margin-top: 0.5rem;
-    }
+    .card.purple .card-num { color: var(--purple-40); }
+    .card.teal .card-num { color: var(--teal-40); }
+    .card.magenta .card-num { color: var(--magenta-40); }
+    .card.red .card-num { color: var(--red-50); }
+    .card.green .card-num { color: var(--green-50); }
+    .card.yellow .card-num { color: var(--yellow-30); }
+    .card .card-title { font-size: 0.875rem; font-weight: 600; margin-top: 0.25rem; }
+    .card .card-desc { font-size: 0.8125rem; color: var(--text-secondary); margin-top: 0.5rem; }
 
-    /* ─── TABLE ─── */
-    .table-wrap { overflow-x: auto; }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.8125rem;
-    }
-    th {
-      text-align: left;
-      font-size: 0.6875rem;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--text-muted);
-      padding: 0.75rem 1rem;
-      border-bottom: 2px solid var(--layer-02);
-      font-weight: 600;
-      white-space: nowrap;
-    }
-    td {
-      padding: 0.75rem 1rem;
-      border-bottom: 1px solid var(--layer-02);
-      color: var(--text-secondary);
-      vertical-align: top;
-    }
-    tr:hover td { background: var(--layer-01); }
-    .pill {
-      display: inline-block;
-      padding: 0.15rem 0.5rem;
-      border-radius: 999px;
-      font-size: 0.6875rem;
-      font-weight: 500;
-    }
-    .pill-blue { background: rgba(15,98,254,0.2); color: var(--blue-40); }
-    .pill-purple { background: rgba(138,63,252,0.2); color: var(--purple-40); }
-    .pill-teal { background: rgba(0,157,154,0.2); color: var(--teal-40); }
-    .pill-magenta { background: rgba(208,38,112,0.2); color: var(--magenta-40); }
-
-    /* ─── INSIGHT BLOCK ─── */
+    /* ─── INSIGHT ─── */
     .insight {
-      background: var(--layer-01);
-      border: 1px solid var(--layer-02);
-      border-left: 4px solid var(--yellow-30);
-      padding: 1.5rem 2rem;
-      margin-top: 1.5rem;
-      font-size: 0.875rem;
-      line-height: 1.6;
+      background: var(--layer-01); border: 1px solid var(--layer-02);
+      border-left: 4px solid var(--yellow-30); padding: 1.5rem 2rem;
+      margin-top: 1.5rem; font-size: 0.875rem; line-height: 1.6;
     }
     .insight strong { color: var(--yellow-30); }
     .insight.blue { border-left-color: var(--blue-60); }
@@ -333,11 +194,26 @@
     .insight.green { border-left-color: var(--green-50); }
     .insight.green strong { color: var(--green-50); }
 
+    /* ─── METHODOLOGY ─── */
+    .method-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;
+    }
+    .method-step {
+      background: var(--layer-01); border: 1px solid var(--layer-02);
+      padding: 1.25rem; position: relative;
+    }
+    .method-step .step-num {
+      font-family: 'IBM Plex Mono', monospace; font-size: 2rem;
+      font-weight: 700; color: var(--layer-02); position: absolute;
+      top: 0.75rem; right: 1rem;
+    }
+    [data-theme="light"] .method-step .step-num { color: var(--layer-02); }
+    .method-step .step-title { font-size: 0.875rem; font-weight: 600; margin-bottom: 0.375rem; }
+    .method-step .step-desc { font-size: 0.8125rem; color: var(--text-secondary); }
+
     /* ─── FOOTER ─── */
     .footer {
-      padding: 2rem 2.5rem;
-      font-size: 0.75rem;
-      color: var(--text-muted);
+      padding: 2rem 2.5rem; font-size: 0.75rem; color: var(--text-muted);
       border-top: 1px solid var(--layer-02);
     }
     .footer a { color: var(--blue-40); text-decoration: none; }
@@ -347,423 +223,364 @@
       .grid-2 { grid-template-columns: 1fr; }
       .bar-row { grid-template-columns: 120px 1fr 50px; }
       .section { padding: 1.5rem; }
+      .header { padding: 1.25rem 1.5rem 1rem; }
     }
   </style>
 </head>
-<body>
+<body data-active-lang="en">
 
 <!-- ═══════════ HEADER ═══════════ -->
 <div class="header">
   <div class="header-top">
-    <h1>AI Agency <strong>Market Intelligence</strong></h1>
-    <span class="tag">April 2026</span>
+    <h1>
+      <span data-lang="en">AI Agency <strong>Market Intelligence</strong></span>
+      <span data-lang="ru">AI-агентства: <strong>Анализ рынка</strong></span>
+    </h1>
+    <div class="controls">
+      <button class="lang-btn" onclick="toggleLang()">RU</button>
+      <div class="toggle-wrap" onclick="toggleTheme()">
+        <span data-lang="en">Light</span><span data-lang="ru">Светлая</span>
+        <div class="toggle-track" id="themeToggle"></div>
+      </div>
+      <span class="tag">April 2026</span>
+    </div>
   </div>
-  <div class="sub">233 companies analyzed across 39 dimensions &mdash; traffic sources, sales funnels, pricing, services, and decision makers</div>
+  <div class="sub">
+    <span data-lang="en">233 companies analyzed across 39 dimensions &mdash; traffic sources, sales funnels, pricing, services, and decision makers</span>
+    <span data-lang="ru">233 компании проанализированы по 39 параметрам &mdash; источники трафика, воронки продаж, цены, услуги и ЛПР</span>
+  </div>
 </div>
 
 <!-- ═══════════ STATS ═══════════ -->
 <div class="stats">
   <div class="stat">
-    <div class="label">Companies</div>
+    <div class="label"><span data-lang="en">Companies</span><span data-lang="ru">Компании</span></div>
     <div class="num">233</div>
-    <div class="note">11+ countries</div>
+    <div class="note"><span data-lang="en">11+ countries</span><span data-lang="ru">11+ стран</span></div>
   </div>
   <div class="stat">
-    <div class="label">High confidence</div>
+    <div class="label"><span data-lang="en">High confidence</span><span data-lang="ru">Высокая точность</span></div>
     <div class="num">73</div>
-    <div class="note">31% of dataset</div>
+    <div class="note"><span data-lang="en">31% of dataset</span><span data-lang="ru">31% от базы</span></div>
   </div>
   <div class="stat">
-    <div class="label">Avg hourly rate</div>
+    <div class="label"><span data-lang="en">Avg hourly rate</span><span data-lang="ru">Средняя ставка</span></div>
     <div class="num">$50-99</div>
-    <div class="note">most common bracket</div>
+    <div class="note"><span data-lang="en">most common bracket</span><span data-lang="ru">самый частый диапазон</span></div>
   </div>
   <div class="stat">
-    <div class="label">Dominant pricing</div>
+    <div class="label"><span data-lang="en">Dominant pricing</span><span data-lang="ru">Модель продаж</span></div>
     <div class="num">72%</div>
-    <div class="note">project-based</div>
+    <div class="note"><span data-lang="en">project-based</span><span data-lang="ru">проектная оплата</span></div>
   </div>
   <div class="stat">
-    <div class="label">#1 Traffic source</div>
+    <div class="label"><span data-lang="en">#1 Traffic source</span><span data-lang="ru">#1 Источник лидов</span></div>
     <div class="num">Clutch</div>
-    <div class="note">121 of 233 companies</div>
+    <div class="note"><span data-lang="en">121 of 233 companies</span><span data-lang="ru">121 из 233 компаний</span></div>
+  </div>
+</div>
+
+<!-- ═══════════ 0. METHODOLOGY ═══════════ -->
+<div class="section">
+  <div class="section-title"><span data-lang="en">How This Research Was Built</span><span data-lang="ru">Как собирался ресерч</span></div>
+  <div class="section-heading">
+    <span data-lang="en">Methodology: 8 Parallel AI Agents + Manual Verification</span>
+    <span data-lang="ru">Методология: 8 параллельных AI-агентов + ручная верификация</span>
+  </div>
+  <div class="section-sub">
+    <span data-lang="en">Each company went through a 5-round research pipeline, first built manually, then scaled across 8 parallel Claude Code agent sessions that replicated the workflow. Every data point was cross-referenced against public sources only &mdash; no paid databases.</span>
+    <span data-lang="ru">Каждая компания прошла через 5-раундовый пайплайн ресерча. Сначала процесс был собран вручную, затем масштабирован через 8 параллельных сессий Claude Code агентов, которые повторяли workflow. Все данные верифицированы по публичным источникам &mdash; без платных баз.</span>
+  </div>
+
+  <div class="method-grid">
+    <div class="method-step">
+      <div class="step-num">01</div>
+      <div class="step-title"><span data-lang="en">Google Search x4</span><span data-lang="ru">Google-поиск x4</span></div>
+      <div class="step-desc"><span data-lang="en">4 parallel queries per company: services, LinkedIn, reviews, founder/funding</span><span data-lang="ru">4 параллельных запроса: услуги, LinkedIn, отзывы, основатели/финансирование</span></div>
+    </div>
+    <div class="method-step">
+      <div class="step-num">02</div>
+      <div class="step-title"><span data-lang="en">Website Deep Dive x4</span><span data-lang="ru">Сканирование сайта x4</span></div>
+      <div class="step-desc"><span data-lang="en">Fetch /services, /about, /pricing, /case-studies pages</span><span data-lang="ru">Парсинг страниц /services, /about, /pricing, /case-studies</span></div>
+    </div>
+    <div class="method-step">
+      <div class="step-num">03</div>
+      <div class="step-title"><span data-lang="en">Gap Filling x4</span><span data-lang="ru">Закрытие пробелов x4</span></div>
+      <div class="step-desc"><span data-lang="en">Pricing rates, Twitter/X, client verification, Crunchbase data</span><span data-lang="ru">Ставки, Twitter/X, верификация клиентов, данные Crunchbase</span></div>
+    </div>
+    <div class="method-step">
+      <div class="step-num">04</div>
+      <div class="step-title"><span data-lang="en">Funnel Analysis</span><span data-lang="ru">Анализ воронки</span></div>
+      <div class="step-desc"><span data-lang="en">Every CTA, form, booking system, lead magnet, chat on the homepage</span><span data-lang="ru">Все CTA, формы, системы бронирования, лид-магниты, чаты на главной</span></div>
+    </div>
+    <div class="method-step">
+      <div class="step-num">05</div>
+      <div class="step-title"><span data-lang="en">Cross-Reference</span><span data-lang="ru">Кросс-проверка</span></div>
+      <div class="step-desc"><span data-lang="en">Website claims vs LinkedIn headcount, client verification, red flag tagging</span><span data-lang="ru">Заявления сайта vs LinkedIn, верификация клиентов, флаги рисков</span></div>
+    </div>
+    <div class="method-step">
+      <div class="step-num">x8</div>
+      <div class="step-title"><span data-lang="en">Parallel Agents</span><span data-lang="ru">Параллельные агенты</span></div>
+      <div class="step-desc"><span data-lang="en">8 Claude Code sessions running the same pipeline simultaneously on different companies</span><span data-lang="ru">8 сессий Claude Code, запущенных параллельно на разных компаниях по одному пайплайну</span></div>
+    </div>
+  </div>
+
+  <div class="insight blue" style="margin-top:1.5rem">
+    <strong><span data-lang="en">Hard rules:</span><span data-lang="ru">Жёсткие правила:</span></strong>
+    <span data-lang="en">Never trust /blog/ pages (SEO marketing, not truth). Always separate Claimed vs Verified. "Not found" over guessing. Public sources only: Clutch, LinkedIn, company websites, Crunchbase, G2, GitHub, job boards. No Apollo, ZoomInfo, or paid databases.</span>
+    <span data-lang="ru">Никогда не доверять /blog/ (SEO-маркетинг, а не факты). Всегда разделять Claimed vs Verified. &laquo;Не найдено&raquo; лучше, чем догадка. Только публичные источники: Clutch, LinkedIn, сайты компаний, Crunchbase, G2, GitHub, вакансии. Без Apollo, ZoomInfo и платных баз.</span>
   </div>
 </div>
 
 <!-- ═══════════ 1. TRAFFIC SOURCES ═══════════ -->
 <div class="section">
   <div class="section-title">Section 01</div>
-  <div class="section-heading">Where Do AI Agencies Get Clients?</div>
-  <div class="section-sub">Traffic and lead sources identified across 233 companies. Most agencies rely on review platforms and inbound content &mdash; not paid ads.</div>
+  <div class="section-heading">
+    <span data-lang="en">Where Do AI Agencies Get Clients?</span>
+    <span data-lang="ru">Откуда AI-агентства берут клиентов?</span>
+  </div>
+  <div class="section-sub">
+    <span data-lang="en">Traffic and lead sources identified across 233 companies. Most agencies rely on review platforms and inbound content &mdash; not paid ads.</span>
+    <span data-lang="ru">Источники трафика и лидов по 233 компаниям. Большинство строят на ревью-платформах и контенте &mdash; не на платной рекламе.</span>
+  </div>
 
   <div class="bar-chart">
-    <div class="bar-row">
-      <div class="bar-label"><a href="https://clutch.co" target="_blank" style="color:var(--blue-40)">Clutch.co</a></div>
-      <div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--blue-60)"></div></div>
-      <div class="bar-val">121</div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-label">Content Marketing / Blog</div>
-      <div class="bar-track"><div class="bar-fill" style="width:73%;background:var(--purple-60)"></div></div>
-      <div class="bar-val">89</div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-label">Partnerships / Integrations</div>
-      <div class="bar-track"><div class="bar-fill" style="width:68%;background:var(--teal-60)"></div></div>
-      <div class="bar-val">82</div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-label">SEO / Google Organic</div>
-      <div class="bar-track"><div class="bar-fill" style="width:64%;background:var(--cyan-40)"></div></div>
-      <div class="bar-val">78</div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-label"><a href="https://linkedin.com" target="_blank" style="color:var(--blue-40)">LinkedIn</a></div>
-      <div class="bar-track"><div class="bar-fill" style="width:59%;background:var(--blue-60)"></div></div>
-      <div class="bar-val">71</div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-label">Referrals / Word of Mouth</div>
-      <div class="bar-track"><div class="bar-fill" style="width:17%;background:var(--purple-60)"></div></div>
-      <div class="bar-val">21</div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-label">Events / Webinars</div>
-      <div class="bar-track"><div class="bar-fill" style="width:12%;background:var(--teal-60)"></div></div>
-      <div class="bar-val">15</div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-label"><a href="https://g2.com" target="_blank" style="color:var(--blue-40)">G2</a></div>
-      <div class="bar-track"><div class="bar-fill" style="width:5%;background:var(--magenta-60)"></div></div>
-      <div class="bar-val">6</div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-label">Cold Outbound</div>
-      <div class="bar-track"><div class="bar-fill" style="width:4%;background:var(--red-50)"></div></div>
-      <div class="bar-val">5</div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-label"><a href="https://upwork.com" target="_blank" style="color:var(--blue-40)">Upwork / Freelance</a></div>
-      <div class="bar-track"><div class="bar-fill" style="width:4%;background:var(--red-50)"></div></div>
-      <div class="bar-val">5</div>
-    </div>
+    <div class="bar-row"><div class="bar-label"><a href="https://clutch.co" target="_blank">Clutch.co</a></div><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--blue-60)"></div></div><div class="bar-val">121</div></div>
+    <div class="bar-row"><div class="bar-label"><span data-lang="en">Content Marketing / Blog</span><span data-lang="ru">Контент-маркетинг / Блог</span></div><div class="bar-track"><div class="bar-fill" style="width:73%;background:var(--purple-60)"></div></div><div class="bar-val">89</div></div>
+    <div class="bar-row"><div class="bar-label"><span data-lang="en">Partnerships / Integrations</span><span data-lang="ru">Партнёрства / Интеграции</span></div><div class="bar-track"><div class="bar-fill" style="width:68%;background:var(--teal-60)"></div></div><div class="bar-val">82</div></div>
+    <div class="bar-row"><div class="bar-label">SEO / Google Organic</div><div class="bar-track"><div class="bar-fill" style="width:64%;background:var(--cyan-40)"></div></div><div class="bar-val">78</div></div>
+    <div class="bar-row"><div class="bar-label"><a href="https://linkedin.com" target="_blank">LinkedIn</a></div><div class="bar-track"><div class="bar-fill" style="width:59%;background:var(--blue-60)"></div></div><div class="bar-val">71</div></div>
+    <div class="bar-row"><div class="bar-label"><span data-lang="en">Referrals / Word of Mouth</span><span data-lang="ru">Рекомендации / Сарафан</span></div><div class="bar-track"><div class="bar-fill" style="width:17%;background:var(--purple-60)"></div></div><div class="bar-val">21</div></div>
+    <div class="bar-row"><div class="bar-label"><span data-lang="en">Events / Webinars</span><span data-lang="ru">Ивенты / Вебинары</span></div><div class="bar-track"><div class="bar-fill" style="width:12%;background:var(--teal-60)"></div></div><div class="bar-val">15</div></div>
+    <div class="bar-row"><div class="bar-label"><a href="https://g2.com" target="_blank">G2</a></div><div class="bar-track"><div class="bar-fill" style="width:5%;background:var(--magenta-60)"></div></div><div class="bar-val">6</div></div>
+    <div class="bar-row"><div class="bar-label">Cold Outbound</div><div class="bar-track"><div class="bar-fill" style="width:4%;background:var(--red-50)"></div></div><div class="bar-val">5</div></div>
+    <div class="bar-row"><div class="bar-label"><a href="https://upwork.com" target="_blank">Upwork / Freelance</a></div><div class="bar-track"><div class="bar-fill" style="width:4%;background:var(--red-50)"></div></div><div class="bar-val">5</div></div>
   </div>
 
   <div class="insight">
-    <strong>Takeaway:</strong> Review platforms (Clutch, G2) and content/SEO drive the vast majority of leads. Almost no one relies on cold outbound or paid ads. If you're starting an AI agency, your first investment should be Clutch profile + SEO content, not ad spend.
+    <strong>Takeaway:</strong>
+    <span data-lang="en">Review platforms (Clutch, G2) and content/SEO drive the vast majority of leads. Almost no one relies on cold outbound or paid ads. If you're starting an AI agency, your first investment should be a Clutch profile + SEO content, not ad spend.</span>
+    <span data-lang="ru">Ревью-платформы (Clutch, G2) и контент/SEO генерируют подавляющее большинство лидов. Почти никто не использует холодный аутбаунд или платную рекламу. Если запускаешь AI-агентство, первая инвестиция &mdash; профиль на Clutch + SEO-контент, а не рекламный бюджет.</span>
   </div>
 </div>
 
 <!-- ═══════════ 2. SALES FUNNEL ═══════════ -->
 <div class="section">
   <div class="section-title">Section 02</div>
-  <div class="section-heading">How Does the Typical Sales Funnel Look?</div>
-  <div class="section-sub">The dominant funnel pattern across 233 agencies. The market has converged on a predictable 4-stage motion.</div>
+  <div class="section-heading">
+    <span data-lang="en">How Does the Typical Sales Funnel Look?</span>
+    <span data-lang="ru">Как выглядит типичная воронка продаж?</span>
+  </div>
+  <div class="section-sub">
+    <span data-lang="en">The dominant funnel pattern across 233 agencies. The market has converged on a predictable 4-stage motion.</span>
+    <span data-lang="ru">Доминирующий паттерн воронки по 233 агентствам. Рынок сошёлся на предсказуемой 4-этапной модели.</span>
+  </div>
 
   <div class="funnel">
-    <div class="funnel-stage">
-      <div class="funnel-bar" style="width:100%;background:var(--blue-60);">
-        HOOK &mdash; Attract Attention
-      </div>
-    </div>
-    <div class="funnel-arrow">&#9660;<span>Clutch reviews (127) &bull; SEO/content (87) &bull; LinkedIn (71) &bull; Case studies (50)</span></div>
-
-    <div class="funnel-stage">
-      <div class="funnel-bar" style="width:85%;background:var(--purple-60);">
-        ENTRY &mdash; First Engagement
-      </div>
-    </div>
-    <div class="funnel-arrow">&#9660;<span>Free consultation (40) &bull; Lead magnet (14) &bull; Free AI audit (8) &bull; Website chatbot (5)</span></div>
-
-    <div class="funnel-stage">
-      <div class="funnel-bar" style="width:68%;background:var(--teal-60);">
-        QUALIFY &mdash; Scope &amp; Propose
-      </div>
-    </div>
-    <div class="funnel-arrow">&#9660;<span>Custom proposal / SOW (88) &bull; Discovery workshop &bull; Requirements gathering</span></div>
-
-    <div class="funnel-stage">
-      <div class="funnel-bar" style="width:52%;background:var(--magenta-60);">
-        CLOSE &mdash; Convert to Revenue
-      </div>
-    </div>
-    <div class="funnel-arrow"><span>Paid pilot / PoC (22) &bull; Fixed-scope project (39) &bull; Direct retainer (5)</span></div>
+    <div class="funnel-bar" style="width:100%;background:var(--blue-60)"><span data-lang="en">HOOK &mdash; Attract Attention</span><span data-lang="ru">КРЮЧОК &mdash; Привлечь внимание</span></div>
+    <div class="funnel-arrow">&#9660;<span>Clutch (127) &bull; SEO/content (87) &bull; LinkedIn (71) &bull; Case studies (50)</span></div>
+    <div class="funnel-bar" style="width:85%;background:var(--purple-60)"><span data-lang="en">ENTRY &mdash; First Engagement</span><span data-lang="ru">ВХОД &mdash; Первый контакт</span></div>
+    <div class="funnel-arrow">&#9660;<span><span data-lang="en">Free consultation (40) &bull; Lead magnet (14) &bull; Free AI audit (8)</span><span data-lang="ru">Бесплатная консультация (40) &bull; Лид-магнит (14) &bull; Бесплатный AI-аудит (8)</span></span></div>
+    <div class="funnel-bar" style="width:68%;background:var(--teal-60)"><span data-lang="en">QUALIFY &mdash; Scope &amp; Propose</span><span data-lang="ru">КВАЛИФИКАЦИЯ &mdash; Скоуп и предложение</span></div>
+    <div class="funnel-arrow">&#9660;<span>Custom proposal / SOW (88) &bull; Discovery workshop</span></div>
+    <div class="funnel-bar" style="width:52%;background:var(--magenta-60)"><span data-lang="en">CLOSE &mdash; Convert to Revenue</span><span data-lang="ru">ЗАКРЫТИЕ &mdash; Конвертация в выручку</span></div>
+    <div class="funnel-arrow"><span><span data-lang="en">Paid pilot (22) &bull; Fixed-scope project (39) &bull; Direct retainer (5)</span><span data-lang="ru">Платный пилот (22) &bull; Фикс-проект (39) &bull; Ретейнер (5)</span></span></div>
   </div>
 
   <div class="cards" style="margin-top:2rem">
     <div class="card">
       <div class="card-num">88</div>
-      <div class="card-title">Close with custom SOW</div>
-      <div class="card-desc">Most agencies write a bespoke proposal. No standard product, no self-serve pricing. Enterprise sales motion by default.</div>
+      <div class="card-title"><span data-lang="en">Close with custom SOW</span><span data-lang="ru">Закрытие через кастомное КП</span></div>
+      <div class="card-desc"><span data-lang="en">Most agencies write a bespoke proposal. No standard product, no self-serve pricing. Enterprise sales motion by default.</span><span data-lang="ru">Большинство пишут индивидуальное предложение. Нет стандартного продукта, нет публичных цен. Энтерпрайз-модель по умолчанию.</span></div>
     </div>
-    <div class="card accent-purple">
+    <div class="card purple">
       <div class="card-num">40</div>
-      <div class="card-title">Free consultation as hook</div>
-      <div class="card-desc">The #1 entry point. Calendly + 30-min call. Low friction, but commoditized &mdash; hard to differentiate on this alone.</div>
+      <div class="card-title"><span data-lang="en">Free consultation as hook</span><span data-lang="ru">Бесплатная консультация как вход</span></div>
+      <div class="card-desc"><span data-lang="en">The #1 entry point. Calendly + 30-min call. Low friction, but commoditized.</span><span data-lang="ru">Вход #1. Calendly + 30-мин звонок. Низкий барьер, но стало шаблонным.</span></div>
     </div>
-    <div class="card accent-teal">
+    <div class="card teal">
       <div class="card-num">22</div>
-      <div class="card-title">Paid pilot / PoC first</div>
-      <div class="card-desc">Smarter agencies sell a $2K-$10K pilot before the full engagement. De-risks the deal for both sides.</div>
+      <div class="card-title"><span data-lang="en">Paid pilot / PoC first</span><span data-lang="ru">Платный пилот / PoC первым шагом</span></div>
+      <div class="card-desc"><span data-lang="en">Smarter agencies sell a $2K-$10K pilot before the full engagement. De-risks the deal for both sides.</span><span data-lang="ru">Умные агентства продают пилот за $2K-$10K перед основным контрактом. Снижает риск для обеих сторон.</span></div>
     </div>
   </div>
 
   <div class="insight blue">
-    <strong>Insight:</strong> The funnel is nearly identical everywhere: Clutch reviews &rarr; free consult &rarr; custom SOW &rarr; project. Agencies that break this pattern (paid audits, fixed-scope pilots, transparent pricing) stand out immediately.
+    <strong>Insight:</strong>
+    <span data-lang="en">The funnel is nearly identical everywhere: Clutch reviews &rarr; free consult &rarr; custom SOW &rarr; project. Agencies that break this pattern (paid audits, fixed-scope pilots, transparent pricing) stand out immediately.</span>
+    <span data-lang="ru">Воронка почти одинаковая везде: отзывы Clutch &rarr; бесплатная консультация &rarr; кастомное КП &rarr; проект. Агентства, которые ломают этот паттерн (платный аудит, фикс-пилоты, прозрачные цены), сразу выделяются.</span>
   </div>
 </div>
 
 <!-- ═══════════ 3. SERVICES & PRICING ═══════════ -->
 <div class="section">
   <div class="section-title">Section 03</div>
-  <div class="section-heading">What Services Do They Sell &amp; At What Price?</div>
-  <div class="section-sub">Service categories and verified pricing data from Clutch, public websites, and case studies.</div>
-
-  <div class="bar-chart">
-    <div class="bar-row">
-      <div class="bar-label">Custom Software & Apps</div>
-      <div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--blue-60)"></div></div>
-      <div class="bar-val">105</div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-label">Workflow & Process Automation</div>
-      <div class="bar-track"><div class="bar-fill" style="width:93%;background:var(--purple-60)"></div></div>
-      <div class="bar-val">98</div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-label">AI Strategy & Consulting</div>
-      <div class="bar-track"><div class="bar-fill" style="width:90%;background:var(--teal-60)"></div></div>
-      <div class="bar-val">94</div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-label">AI Agents & Agentic Systems</div>
-      <div class="bar-track"><div class="bar-fill" style="width:84%;background:var(--cyan-40)"></div></div>
-      <div class="bar-val">88</div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-label">ML & Data Science</div>
-      <div class="bar-track"><div class="bar-fill" style="width:58%;background:var(--blue-60)"></div></div>
-      <div class="bar-val">61</div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-label">Cloud & DevOps</div>
-      <div class="bar-track"><div class="bar-fill" style="width:51%;background:var(--purple-60)"></div></div>
-      <div class="bar-val">54</div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-label">Generative AI / LLM</div>
-      <div class="bar-track"><div class="bar-fill" style="width:43%;background:var(--teal-60)"></div></div>
-      <div class="bar-val">45</div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-label">Digital Marketing</div>
-      <div class="bar-track"><div class="bar-fill" style="width:38%;background:var(--magenta-60)"></div></div>
-      <div class="bar-val">40</div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-label">CRM & Sales Automation</div>
-      <div class="bar-track"><div class="bar-fill" style="width:33%;background:var(--blue-60)"></div></div>
-      <div class="bar-val">35</div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-label">AI Chatbots & Assistants</div>
-      <div class="bar-track"><div class="bar-fill" style="width:26%;background:var(--purple-60)"></div></div>
-      <div class="bar-val">27</div>
-    </div>
+  <div class="section-heading">
+    <span data-lang="en">What Services Do They Sell &amp; At What Price?</span>
+    <span data-lang="ru">Какие услуги продают и за сколько?</span>
+  </div>
+  <div class="section-sub">
+    <span data-lang="en">Service categories and verified pricing from Clutch, public websites, and case studies.</span>
+    <span data-lang="ru">Категории услуг и верифицированные цены из Clutch, публичных сайтов и кейсов.</span>
   </div>
 
-  <!-- Pricing table -->
-  <h3 style="font-size:1rem;font-weight:600;margin:2.5rem 0 1rem">Pricing Benchmarks</h3>
+  <div class="bar-chart">
+    <div class="bar-row"><div class="bar-label">Custom Software & Apps</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--blue-60)"></div></div><div class="bar-val">105</div></div>
+    <div class="bar-row"><div class="bar-label">Workflow & Process Automation</div><div class="bar-track"><div class="bar-fill" style="width:93%;background:var(--purple-60)"></div></div><div class="bar-val">98</div></div>
+    <div class="bar-row"><div class="bar-label">AI Strategy & Consulting</div><div class="bar-track"><div class="bar-fill" style="width:90%;background:var(--teal-60)"></div></div><div class="bar-val">94</div></div>
+    <div class="bar-row"><div class="bar-label">AI Agents & Agentic Systems</div><div class="bar-track"><div class="bar-fill" style="width:84%;background:var(--cyan-40)"></div></div><div class="bar-val">88</div></div>
+    <div class="bar-row"><div class="bar-label">ML & Data Science</div><div class="bar-track"><div class="bar-fill" style="width:58%;background:var(--blue-60)"></div></div><div class="bar-val">61</div></div>
+    <div class="bar-row"><div class="bar-label">Cloud & DevOps</div><div class="bar-track"><div class="bar-fill" style="width:51%;background:var(--purple-60)"></div></div><div class="bar-val">54</div></div>
+    <div class="bar-row"><div class="bar-label">Generative AI / LLM</div><div class="bar-track"><div class="bar-fill" style="width:43%;background:var(--teal-60)"></div></div><div class="bar-val">45</div></div>
+    <div class="bar-row"><div class="bar-label">Digital Marketing</div><div class="bar-track"><div class="bar-fill" style="width:38%;background:var(--magenta-60)"></div></div><div class="bar-val">40</div></div>
+    <div class="bar-row"><div class="bar-label">CRM & Sales Automation</div><div class="bar-track"><div class="bar-fill" style="width:33%;background:var(--blue-60)"></div></div><div class="bar-val">35</div></div>
+    <div class="bar-row"><div class="bar-label">AI Chatbots & Assistants</div><div class="bar-track"><div class="bar-fill" style="width:26%;background:var(--purple-60)"></div></div><div class="bar-val">27</div></div>
+  </div>
+
+  <h3 style="font-size:1rem;font-weight:600;margin:2.5rem 0 1rem"><span data-lang="en">Pricing Benchmarks</span><span data-lang="ru">Ценовые бенчмарки</span></h3>
 
   <div class="grid-2" style="background:var(--layer-02)">
     <div>
-      <h4 style="font-size:0.8125rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem">Hourly Rates (Clutch verified)</h4>
+      <h4 style="font-size:0.8125rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem"><span data-lang="en">Hourly Rates (Clutch verified)</span><span data-lang="ru">Часовые ставки (верифицировано Clutch)</span></h4>
       <div class="bar-chart">
-        <div class="bar-row">
-          <div class="bar-label">$50-99/hr</div>
-          <div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--blue-60)"></div></div>
-          <div class="bar-val">27</div>
-        </div>
-        <div class="bar-row">
-          <div class="bar-label">$25-49/hr</div>
-          <div class="bar-track"><div class="bar-fill" style="width:67%;background:var(--teal-60)"></div></div>
-          <div class="bar-val">18</div>
-        </div>
-        <div class="bar-row">
-          <div class="bar-label">$100-149/hr</div>
-          <div class="bar-track"><div class="bar-fill" style="width:30%;background:var(--purple-60)"></div></div>
-          <div class="bar-val">8</div>
-        </div>
-        <div class="bar-row">
-          <div class="bar-label">$150-199/hr</div>
-          <div class="bar-track"><div class="bar-fill" style="width:19%;background:var(--magenta-60)"></div></div>
-          <div class="bar-val">5</div>
-        </div>
-        <div class="bar-row">
-          <div class="bar-label">$200+/hr</div>
-          <div class="bar-track"><div class="bar-fill" style="width:15%;background:var(--red-50)"></div></div>
-          <div class="bar-val">4</div>
-        </div>
+        <div class="bar-row"><div class="bar-label">$50-99/hr</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--blue-60)"></div></div><div class="bar-val">27</div></div>
+        <div class="bar-row"><div class="bar-label">$25-49/hr</div><div class="bar-track"><div class="bar-fill" style="width:67%;background:var(--teal-60)"></div></div><div class="bar-val">18</div></div>
+        <div class="bar-row"><div class="bar-label">$100-149/hr</div><div class="bar-track"><div class="bar-fill" style="width:30%;background:var(--purple-60)"></div></div><div class="bar-val">8</div></div>
+        <div class="bar-row"><div class="bar-label">$150-199/hr</div><div class="bar-track"><div class="bar-fill" style="width:19%;background:var(--magenta-60)"></div></div><div class="bar-val">5</div></div>
+        <div class="bar-row"><div class="bar-label">$200+/hr</div><div class="bar-track"><div class="bar-fill" style="width:15%;background:var(--red-50)"></div></div><div class="bar-val">4</div></div>
       </div>
     </div>
     <div>
-      <h4 style="font-size:0.8125rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem">Minimum Project Size</h4>
-      <div class="bar-chart">
-        <div class="bar-row">
-          <div class="bar-label">$25K+</div>
-          <div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--blue-60)"></div></div>
-          <div class="bar-val">11</div>
-        </div>
-        <div class="bar-row">
-          <div class="bar-label">$10K+</div>
-          <div class="bar-track"><div class="bar-fill" style="width:91%;background:var(--teal-60)"></div></div>
-          <div class="bar-val">10</div>
-        </div>
-        <div class="bar-row">
-          <div class="bar-label">$5K+</div>
-          <div class="bar-track"><div class="bar-fill" style="width:36%;background:var(--purple-60)"></div></div>
-          <div class="bar-val">4</div>
-        </div>
-        <div class="bar-row">
-          <div class="bar-label">$1K+</div>
-          <div class="bar-track"><div class="bar-fill" style="width:27%;background:var(--magenta-60)"></div></div>
-          <div class="bar-val">3</div>
-        </div>
-      </div>
-
-      <h4 style="font-size:0.8125rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin:2rem 0 1rem">Typical project ranges</h4>
-      <div style="font-size:0.8125rem;color:var(--text-secondary);line-height:2">
+      <h4 style="font-size:0.8125rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem"><span data-lang="en">Typical Project Ranges</span><span data-lang="ru">Типичные диапазоны проектов</span></h4>
+      <div style="font-size:0.8125rem;color:var(--text-secondary);line-height:2.2">
         <div>AI Chatbot: <span style="color:var(--blue-40);font-family:'IBM Plex Mono',monospace">$3K &mdash; $15K</span></div>
         <div>Workflow Automation: <span style="color:var(--blue-40);font-family:'IBM Plex Mono',monospace">$5K &mdash; $25K</span></div>
         <div>Custom AI Agent: <span style="color:var(--blue-40);font-family:'IBM Plex Mono',monospace">$10K &mdash; $50K</span></div>
         <div>Enterprise AI: <span style="color:var(--blue-40);font-family:'IBM Plex Mono',monospace">$25K &mdash; $200K+</span></div>
-        <div>Full Engagement: <span style="color:var(--blue-40);font-family:'IBM Plex Mono',monospace">$40K &mdash; $200K</span></div>
+        <div>Min. project (median): <span style="color:var(--blue-40);font-family:'IBM Plex Mono',monospace">$10K &mdash; $25K</span></div>
       </div>
     </div>
   </div>
 
   <div class="insight">
-    <strong>Takeaway:</strong> The $50-99/hr bracket is the market center of gravity. $25-49/hr signals offshore teams (India, LATAM). Above $150/hr signals US/UK boutique or enterprise consulting. The sweet spot for a new agency is $75-120/hr with fixed-scope packages &mdash; removes rate comparison and focuses on value.
+    <strong>Takeaway:</strong>
+    <span data-lang="en">The $50-99/hr bracket is the market center of gravity. $25-49/hr = offshore (India, LATAM). Above $150/hr = US/UK boutique. The sweet spot for a new agency: $75-120/hr with fixed-scope packages &mdash; removes hourly comparison, focuses on value.</span>
+    <span data-lang="ru">Диапазон $50-99/час &mdash; центр рынка. $25-49 = офшор (Индия, LATAM). Выше $150 = бутиковые US/UK агентства. Лучшая позиция для нового агентства: $75-120/час в формате фикс-пакетов &mdash; убирает сравнение по ставке, фокусирует на ценности.</span>
   </div>
 </div>
 
 <!-- ═══════════ 4. DECISION MAKERS ═══════════ -->
 <div class="section">
   <div class="section-title">Section 04</div>
-  <div class="section-heading">Who Are the Decision Makers?</div>
-  <div class="section-sub">The roles that actually sign off on AI agency engagements, based on buyer profiles across 233 companies.</div>
+  <div class="section-heading">
+    <span data-lang="en">Who Are the Decision Makers?</span>
+    <span data-lang="ru">Кто принимает решения о покупке?</span>
+  </div>
+  <div class="section-sub">
+    <span data-lang="en">The roles that actually sign off on AI agency engagements, based on buyer profiles across 233 companies.</span>
+    <span data-lang="ru">Роли, которые реально подписывают контракты с AI-агентствами, по данным профилей покупателей 233 компаний.</span>
+  </div>
 
   <div class="bar-chart">
-    <div class="bar-row">
-      <div class="bar-label">CTO / VP Engineering</div>
-      <div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--blue-60)"></div></div>
-      <div class="bar-val">159</div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-label">CEO / Founder</div>
-      <div class="bar-track"><div class="bar-fill" style="width:50%;background:var(--purple-60)"></div></div>
-      <div class="bar-val">80</div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-label">COO / Head of Ops</div>
-      <div class="bar-track"><div class="bar-fill" style="width:27%;background:var(--teal-60)"></div></div>
-      <div class="bar-val">43</div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-label">Business Owner</div>
-      <div class="bar-track"><div class="bar-fill" style="width:23%;background:var(--cyan-40)"></div></div>
-      <div class="bar-val">36</div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-label">Product Lead</div>
-      <div class="bar-track"><div class="bar-fill" style="width:19%;background:var(--blue-60)"></div></div>
-      <div class="bar-val">30</div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-label">CMO / Marketing Lead</div>
-      <div class="bar-track"><div class="bar-fill" style="width:17%;background:var(--magenta-60)"></div></div>
-      <div class="bar-val">27</div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-label">Digital Transformation Lead</div>
-      <div class="bar-track"><div class="bar-fill" style="width:11%;background:var(--purple-60)"></div></div>
-      <div class="bar-val">17</div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-label">CIO / IT Director</div>
-      <div class="bar-track"><div class="bar-fill" style="width:11%;background:var(--teal-60)"></div></div>
-      <div class="bar-val">17</div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-label">Sales / Revenue Lead</div>
-      <div class="bar-track"><div class="bar-fill" style="width:4%;background:var(--magenta-60)"></div></div>
-      <div class="bar-val">7</div>
-    </div>
+    <div class="bar-row"><div class="bar-label">CTO / VP Engineering</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--blue-60)"></div></div><div class="bar-val">159</div></div>
+    <div class="bar-row"><div class="bar-label">CEO / Founder</div><div class="bar-track"><div class="bar-fill" style="width:50%;background:var(--purple-60)"></div></div><div class="bar-val">80</div></div>
+    <div class="bar-row"><div class="bar-label">COO / Head of Ops</div><div class="bar-track"><div class="bar-fill" style="width:27%;background:var(--teal-60)"></div></div><div class="bar-val">43</div></div>
+    <div class="bar-row"><div class="bar-label">Business Owner</div><div class="bar-track"><div class="bar-fill" style="width:23%;background:var(--cyan-40)"></div></div><div class="bar-val">36</div></div>
+    <div class="bar-row"><div class="bar-label">Product Lead</div><div class="bar-track"><div class="bar-fill" style="width:19%;background:var(--blue-60)"></div></div><div class="bar-val">30</div></div>
+    <div class="bar-row"><div class="bar-label">CMO / Marketing Lead</div><div class="bar-track"><div class="bar-fill" style="width:17%;background:var(--magenta-60)"></div></div><div class="bar-val">27</div></div>
+    <div class="bar-row"><div class="bar-label">CIO / IT Director</div><div class="bar-track"><div class="bar-fill" style="width:11%;background:var(--teal-60)"></div></div><div class="bar-val">17</div></div>
+    <div class="bar-row"><div class="bar-label">Sales / Revenue Lead</div><div class="bar-track"><div class="bar-fill" style="width:4%;background:var(--magenta-60)"></div></div><div class="bar-val">7</div></div>
   </div>
 
   <div class="cards" style="margin-top:2rem">
-    <div class="card accent-green">
+    <div class="card green">
       <div class="card-num">68%</div>
-      <div class="card-title">Technical buyer dominance</div>
-      <div class="card-desc">CTO/VP Eng is the primary DM in 68% of cases. Your marketing, case studies, and proof points must speak to technical credibility first.</div>
+      <div class="card-title"><span data-lang="en">Technical buyer dominance</span><span data-lang="ru">Доминирование технических покупателей</span></div>
+      <div class="card-desc"><span data-lang="en">CTO/VP Eng is the primary DM in 68% of cases. Your marketing must speak to technical credibility first.</span><span data-lang="ru">CTO/VP Eng &mdash; основной ЛПР в 68% случаев. Маркетинг должен говорить на языке технической экспертизы.</span></div>
     </div>
-    <div class="card accent-yellow">
-      <div class="card-num">CEO + Owner</div>
-      <div class="card-title">SMB = founder sells to founder</div>
-      <div class="card-desc">In companies under 50 people, CEO/founder and business owner together are the buyer in 50% of deals. Skip the org chart &mdash; go direct.</div>
+    <div class="card yellow">
+      <div class="card-num">50%</div>
+      <div class="card-title"><span data-lang="en">SMB = founder sells to founder</span><span data-lang="ru">SMB = фаундер продаёт фаундеру</span></div>
+      <div class="card-desc"><span data-lang="en">In companies under 50 people, CEO + business owner are the buyer in half the deals. Skip the org chart &mdash; go direct.</span><span data-lang="ru">В компаниях до 50 человек CEO + владелец &mdash; покупатель в половине сделок. Не надо оргструктуры &mdash; иди напрямую.</span></div>
     </div>
-    <div class="card accent-magenta">
+    <div class="card magenta">
       <div class="card-num">3%</div>
-      <div class="card-title">Sales leads rarely buy AI</div>
-      <div class="card-desc">Only 7 out of 233 companies sell to sales/revenue leads. Huge blind spot &mdash; sales automation is a $3-15K use case that almost nobody is targeting this buyer for.</div>
+      <div class="card-title"><span data-lang="en">Sales leads rarely buy AI</span><span data-lang="ru">Sales-лиды почти не покупают AI</span></div>
+      <div class="card-desc"><span data-lang="en">Only 7/233 companies sell to sales/revenue leads. Blind spot &mdash; sales automation is a $3-15K use case nobody targets to this buyer.</span><span data-lang="ru">Только 7 из 233 продают sales/revenue лидам. Слепая зона &mdash; автоматизация продаж за $3-15K, которую никто не продаёт этому покупателю.</span></div>
     </div>
   </div>
 
   <div class="insight green">
-    <strong>Insight:</strong> The market sells to CTOs because that's who agencies are comfortable pitching. But SMB revenue pain is felt by founders and ops leads. Agencies that learn to sell AI outcomes (not AI tech) to non-technical buyers will find less competition and faster close rates.
+    <strong>Insight:</strong>
+    <span data-lang="en">The market sells to CTOs because that's who agencies are comfortable pitching. But SMB revenue pain is felt by founders and ops leads. Agencies that sell AI outcomes (not AI tech) to non-technical buyers will find less competition and faster close rates.</span>
+    <span data-lang="ru">Рынок продаёт CTO, потому что агентствам так удобнее. Но в SMB боль от потерянной выручки чувствуют фаундеры и руководители операций. Агентства, продающие результат (а не технологию) нетехническим покупателям, найдут меньше конкуренции и быстрее закроют сделки.</span>
   </div>
 </div>
 
 <!-- ═══════════ 5. STRATEGIC CONCLUSIONS ═══════════ -->
 <div class="section">
   <div class="section-title">Section 05</div>
-  <div class="section-heading">The Pattern That Separates Winners from Noise</div>
+  <div class="section-heading">
+    <span data-lang="en">The Pattern That Separates Winners from Noise</span>
+    <span data-lang="ru">Паттерн, который отделяет сильных от шума</span>
+  </div>
 
   <div class="grid-2" style="margin-top:1.5rem;background:var(--layer-02)">
     <div>
-      <h4 style="color:var(--red-50);font-size:0.875rem;margin-bottom:1rem">Weak players sell abstractions</h4>
+      <h4 style="color:var(--red-50);font-size:0.875rem;margin-bottom:1rem"><span data-lang="en">Weak players sell abstractions</span><span data-lang="ru">Слабые продают абстракции</span></h4>
       <div style="font-size:0.875rem;color:var(--text-secondary);line-height:1.8">
         <div style="padding:0.5rem 0;border-bottom:1px solid var(--layer-02)">"AI Strategy & Transformation"</div>
         <div style="padding:0.5rem 0;border-bottom:1px solid var(--layer-02)">"AI Readiness Assessment"</div>
-        <div style="padding:0.5rem 0;border-bottom:1px solid var(--layer-02)">"Custom AI Agents" (vague)</div>
+        <div style="padding:0.5rem 0;border-bottom:1px solid var(--layer-02)">"Custom AI Agents" <span data-lang="en">(vague)</span><span data-lang="ru">(размыто)</span></div>
         <div style="padding:0.5rem 0;border-bottom:1px solid var(--layer-02)">"End-to-End AI Solutions"</div>
         <div style="padding:0.5rem 0">"Digital Transformation"</div>
       </div>
-      <div style="margin-top:1rem;font-size:0.8125rem;color:var(--text-muted)">94 companies (40%) offer "AI consulting" &mdash; the most commoditized service in the dataset. No differentiation, no measurable outcome, no urgency.</div>
+      <div style="margin-top:1rem;font-size:0.8125rem;color:var(--text-muted)"><span data-lang="en">94 companies (40%) offer "AI consulting" &mdash; the most commoditized service. No differentiation, no measurable outcome.</span><span data-lang="ru">94 компании (40%) предлагают &laquo;AI-консалтинг&raquo; &mdash; самая шаблонная услуга. Нет дифференциации, нет измеримого результата.</span></div>
     </div>
     <div>
-      <h4 style="color:var(--green-50);font-size:0.875rem;margin-bottom:1rem">Strong players sell pain relief</h4>
+      <h4 style="color:var(--green-50);font-size:0.875rem;margin-bottom:1rem"><span data-lang="en">Strong players sell pain relief</span><span data-lang="ru">Сильные продают решение боли</span></h4>
       <div style="font-size:0.875rem;color:var(--text-secondary);line-height:1.8">
-        <div style="padding:0.5rem 0;border-bottom:1px solid var(--layer-02)">"Respond to every lead in under 2 minutes"</div>
-        <div style="padding:0.5rem 0;border-bottom:1px solid var(--layer-02)">"Cut manual invoice processing by 80%"</div>
-        <div style="padding:0.5rem 0;border-bottom:1px solid var(--layer-02)">"Stop losing leads after business hours"</div>
-        <div style="padding:0.5rem 0;border-bottom:1px solid var(--layer-02)">"Automate your 2 most expensive manual processes in 30 days"</div>
-        <div style="padding:0.5rem 0">"Book more appointments from existing inbound"</div>
+        <div style="padding:0.5rem 0;border-bottom:1px solid var(--layer-02)"><span data-lang="en">"Respond to every lead in under 2 minutes"</span><span data-lang="ru">&laquo;Отвечаем на каждый лид за 2 минуты&raquo;</span></div>
+        <div style="padding:0.5rem 0;border-bottom:1px solid var(--layer-02)"><span data-lang="en">"Cut manual invoice processing by 80%"</span><span data-lang="ru">&laquo;Сокращаем ручную обработку счетов на 80%&raquo;</span></div>
+        <div style="padding:0.5rem 0;border-bottom:1px solid var(--layer-02)"><span data-lang="en">"Stop losing leads after business hours"</span><span data-lang="ru">&laquo;Перестаньте терять лиды после рабочего дня&raquo;</span></div>
+        <div style="padding:0.5rem 0;border-bottom:1px solid var(--layer-02)"><span data-lang="en">"Automate your 2 most expensive processes in 30 days"</span><span data-lang="ru">&laquo;Автоматизируем 2 самых дорогих процесса за 30 дней&raquo;</span></div>
+        <div style="padding:0.5rem 0"><span data-lang="en">"Book more appointments from existing inbound"</span><span data-lang="ru">&laquo;Больше встреч из имеющегося входящего потока&raquo;</span></div>
       </div>
-      <div style="margin-top:1rem;font-size:0.8125rem;color:var(--text-muted)">These agencies close faster, command higher prices, and retain clients longer. The buyer understands the value in 15 seconds.</div>
+      <div style="margin-top:1rem;font-size:0.8125rem;color:var(--text-muted)"><span data-lang="en">These agencies close faster, charge more, retain longer. The buyer gets the value in 15 seconds.</span><span data-lang="ru">Эти агентства закрывают быстрее, берут дороже, удерживают дольше. Покупатель понимает ценность за 15 секунд.</span></div>
     </div>
   </div>
 
   <div class="insight" style="margin-top:1.5rem">
-    <strong>The core finding from 233 companies:</strong> Businesses don't buy AI. They buy outcomes. The market rewards specificity over capability. The best first offer is not "we do AI" &mdash; it's "we solve this one expensive problem you have right now, and we do it in 2 weeks."
+    <strong><span data-lang="en">The core finding from 233 companies:</span><span data-lang="ru">Главный вывод из 233 компаний:</span></strong>
+    <span data-lang="en">Businesses don't buy AI. They buy outcomes. The market rewards specificity over capability. The best first offer is not "we do AI" &mdash; it's "we solve this one expensive problem you have right now, and we do it in 2 weeks."</span>
+    <span data-lang="ru">Бизнес не покупает AI. Он покупает результат. Рынок награждает конкретность, а не возможности. Лучший первый оффер &mdash; не &laquo;мы делаем AI&raquo;, а &laquo;мы решаем эту одну дорогую проблему прямо сейчас, и делаем это за 2 недели&raquo;.</span>
   </div>
 </div>
 
 <!-- ═══════════ FOOTER ═══════════ -->
 <div class="footer">
-  Data as of April 2026 &bull; 233 companies &bull; 39 fields per company &bull; Public sources only (Clutch, LinkedIn, company websites, Crunchbase) &bull;
-  <a href="https://github.com/larsen66/ai-agency-market-research" target="_blank">github.com/larsen66/ai-agency-market-research</a>
+  <span data-lang="en">Data as of April 2026 &bull; 233 companies &bull; 39 fields per company &bull; Public sources only (Clutch, LinkedIn, company websites, Crunchbase)</span>
+  <span data-lang="ru">Данные на апрель 2026 &bull; 233 компании &bull; 39 полей на компанию &bull; Только публичные источники (Clutch, LinkedIn, сайты компаний, Crunchbase)</span>
+  &bull; <a href="https://github.com/larsen66/ai-agency-market-research" target="_blank">github.com/larsen66/ai-agency-market-research</a>
 </div>
+
+<script>
+function toggleTheme() {
+  const html = document.documentElement;
+  const track = document.getElementById('themeToggle');
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  track.classList.toggle('on', isDark);
+}
+
+function toggleLang() {
+  const body = document.body;
+  const btn = document.querySelector('.lang-btn');
+  const isEn = body.getAttribute('data-active-lang') === 'en';
+  body.setAttribute('data-active-lang', isEn ? 'ru' : 'en');
+  btn.textContent = isEn ? 'EN' : 'RU';
+}
+</script>
 
 </body>
 </html>
