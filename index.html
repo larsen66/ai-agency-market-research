@@ -236,6 +236,26 @@
 </head>
 <body data-active-lang="en">
 
+<!-- ═══════════ TOP NAV ═══════════ -->
+<nav style="background:var(--layer-01);border-bottom:1px solid var(--layer-02);padding:0 2.5rem;height:48px;display:flex;align-items:center;justify-content:space-between;font-size:0.8125rem">
+  <div style="display:flex;align-items:center;gap:1rem">
+    <a href="https://github.com/larsen66/ai-agency-market-research" target="_blank" style="color:var(--text-primary);text-decoration:none;font-weight:600;display:flex;align-items:center;gap:0.5rem">
+      <svg height="18" width="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      <span data-lang="en">Source &amp; Dataset</span><span data-lang="ru">Исходники и данные</span>
+    </a>
+    <span style="color:var(--text-muted)">&bull;</span>
+    <a href="https://github.com/larsen66/ai-agency-market-research/blob/main/research.csv" target="_blank" style="color:var(--text-muted);text-decoration:none">research.csv</a>
+    <a href="https://github.com/larsen66/ai-agency-market-research/tree/main/reports" target="_blank" style="color:var(--text-muted);text-decoration:none"><span data-lang="en">Reports</span><span data-lang="ru">Отчёты</span></a>
+  </div>
+  <div class="controls">
+    <button class="lang-btn" onclick="toggleLang()">RU</button>
+    <div class="toggle-wrap" onclick="toggleTheme()">
+      <span data-lang="en">Light</span><span data-lang="ru">Светлая</span>
+      <div class="toggle-track" id="themeToggle"></div>
+    </div>
+  </div>
+</nav>
+
 <!-- ═══════════ HEADER ═══════════ -->
 <div class="header">
   <div class="header-top">
@@ -243,14 +263,7 @@
       <span data-lang="en">AI Agency <strong>Market Intelligence</strong></span>
       <span data-lang="ru">AI-агентства: <strong>Анализ рынка</strong></span>
     </h1>
-    <div class="controls">
-      <button class="lang-btn" onclick="toggleLang()">RU</button>
-      <div class="toggle-wrap" onclick="toggleTheme()">
-        <span data-lang="en">Light</span><span data-lang="ru">Светлая</span>
-        <div class="toggle-track" id="themeToggle"></div>
-      </div>
-      <span class="tag">April 2026</span>
-    </div>
+    <span class="tag">April 2026</span>
   </div>
   <div class="sub">
     <span data-lang="en">233 companies analyzed across 39 dimensions &mdash; traffic sources, sales funnels, pricing, services, and decision makers</span>
