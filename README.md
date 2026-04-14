@@ -1,12 +1,12 @@
 # AI Agency Market Research 2026
 
-Competitive intelligence database of **460+ AI agent and automation companies**, with deep-dive analysis on market positioning, sales funnels, pricing, and strategic opportunities for new AI agencies targeting SMBs.
+Competitive intelligence database of **233 AI agent and automation companies**, with deep-dive analysis on market positioning, sales funnels, pricing, and strategic opportunities for new AI agencies targeting SMBs.
 
 ## What's Inside
 
 ### Dataset: `research.csv`
 
-A structured research database with 460 rows and 39 columns covering:
+A structured research database with 233 companies and 39 columns covering:
 
 | Column Group | Fields |
 |---|---|
@@ -35,7 +35,7 @@ Curated list of agencies building real agentic AI systems (multi-agent orchestra
 
 ### Market Landscape
 
-- **233 companies** explicitly target SMBs out of 460+ researched
+- **233 companies** researched in total
 - ~55 are clearly SMB-oriented AI/automation agencies
 - Most common entry points: free consultation (~62 companies), AI audit/readiness assessment (~55), retainer/support (~79)
 - Low/no-code stack (n8n, Make, Zapier, HubSpot) appears in ~65 companies
