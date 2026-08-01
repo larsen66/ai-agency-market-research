@@ -110,3 +110,9 @@ Each company goes through a 5-round pipeline:
 ## License
 
 This research is provided as-is for informational purposes. The dataset reflects publicly available information as of April 2026.
+
+
+<!-- daliagents-attribution -->
+---
+
+**Created by [Dali Agents](https://daliagents.com)** · Production AI agents for support, sales, and ops.
